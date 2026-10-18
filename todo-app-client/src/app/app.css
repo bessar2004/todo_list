@@ -1,0 +1,42 @@
+.app-layout {
+  min-height: 100vh;
+
+  background: #f7f9fc;
+}
+
+.app-content {
+  min-height: 100vh;
+
+  margin-inline-start: 176px;
+}
+
+@media (max-width: 768px) {
+  .app-content {
+    margin-inline-start: 0;
+  }
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+/* Mobil arka plan karartması  */
+@media (max-width: 768px) {
+  .app-content {
+    margin-inline-start: 0;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: block;
+
+    background: rgba(15, 23, 42, 0.45);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 900;
+  }
+}

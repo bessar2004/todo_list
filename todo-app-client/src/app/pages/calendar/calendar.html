@@ -1,0 +1,216 @@
+<div class="calendar-page">
+  <!-- HEADER -->
+
+  <div class="calendar-header">
+    <div class="calendar-title">
+      <button
+        type="button"
+        class="menu-button"
+        [attr.aria-label]="language.translate('calendar.openMenu')"
+        (click)="openMobileMenu()"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+
+      <div>
+        <h1>
+          {{ language.translate('calendar.title') }}
+        </h1>
+
+        <p>
+          {{ language.translate('calendar.subtitle') }}
+        </p>
+      </div>
+    </div>
+
+    <div class="calendar-controls">
+      <p-button
+        [label]="language.translate('calendar.today')"
+        severity="secondary"
+        variant="outlined"
+        (click)="goToday()"
+      >
+      </p-button>
+
+      <p-button
+        icon="pi pi-chevron-left"
+        [ariaLabel]="language.translate('calendar.previousMonth')"
+        [rounded]="true"
+        [text]="true"
+        (click)="previousMonth()"
+      >
+      </p-button>
+
+      <h2>
+        {{ monthTitle }}
+      </h2>
+
+      <p-button
+        icon="pi pi-chevron-right"
+        [ariaLabel]="language.translate('calendar.nextMonth')"
+        [rounded]="true"
+        [text]="true"
+        (click)="nextMonth()"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <!-- TAKVİM -->
+
+  @if (isLoading()) {
+    <div class="loading-state" role="status">
+      <i class="pi pi-spin pi-spinner"></i>
+
+      <span>
+        {{ language.translate('calendar.loading') }}
+      </span>
+    </div>
+  } @else if (hasLoadError()) {
+    <div class="error-state" role="alert">
+      <i class="pi pi-exclamation-triangle"></i>
+
+      <span>
+        {{ language.translate('calendar.loadError') }}
+      </span>
+
+      <button type="button" class="retry-button" (click)="loadTodos()">
+        {{ language.translate('calendar.retry') }}
+      </button>
+    </div>
+  }
+
+  <div class="calendar-container" [hidden]="isLoading() || hasLoadError()">
+    <!-- HAFTA GÜNLERİ -->
+
+    <div class="calendar-weekdays">
+      @for (day of weekDays; track day) {
+        <div>
+          {{ day }}
+        </div>
+      }
+    </div>
+
+    <!-- GÜNLER -->
+
+    <div class="calendar-grid">
+      @for (day of calendarDays; track day.date) {
+        <div class="calendar-day" [class.other-month]="!day.currentMonth">
+          <div class="day-number">
+            {{ language.formatNumber(day.dayNumber) }}
+          </div>
+
+          <div class="day-tasks">
+            @for (todo of day.todos; track todo.id) {
+              <button
+                type="button"
+                class="calendar-task"
+                [class]="getPriorityClass(todo.priority)"
+                (click)="openTaskDetail(todo)"
+              >
+                <span class="task-dot"> </span>
+
+                <span class="task-title">
+                  {{ todo.title }}
+                </span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [header]="language.translate('calendar.detailTitle')"
+  [(visible)]="detailDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{
+    width: 'min(520px, 92vw)',
+  }"
+>
+  @if (selectedTodo) {
+    <div class="task-detail">
+      <div class="detail-header">
+        <div>
+          <span class="detail-priority" [class]="getPriorityClass(selectedTodo.priority)">
+            <span class="priority-dot"> </span>
+
+            {{ getPriorityLabel(selectedTodo.priority) }}
+          </span>
+        </div>
+
+        <span class="detail-status" [class]="getStatusClass(selectedTodo.status)">
+          {{ getStatusLabel(selectedTodo.status) }}
+        </span>
+      </div>
+
+      <div class="detail-main">
+        <h2>
+          {{ selectedTodo.title }}
+        </h2>
+
+        @if (selectedTodo.description) {
+          <p>
+            {{ selectedTodo.description }}
+          </p>
+        } @else {
+          <p class="empty-description">
+            {{ language.translate('calendar.noDescription') }}
+          </p>
+        }
+      </div>
+
+      <div class="detail-info">
+        <div class="detail-info-item">
+          <div class="info-icon">
+            <i class="pi pi-calendar"></i>
+          </div>
+
+          <div>
+            <span>
+              {{ language.translate('calendar.dueDate') }}
+            </span>
+
+            <strong>
+              {{
+                selectedTodo.dueDate
+                  ? language.formatDate(selectedTodo.dueDate)
+                  : language.translate('calendar.noDueDate')
+              }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="detail-info-item">
+          <div class="info-icon">
+            <i class="pi pi-clock"></i>
+          </div>
+
+          <div>
+            <span>
+              {{ language.translate('calendar.createdAt') }}
+            </span>
+
+            <strong>
+              {{ language.formatDate(selectedTodo.createdAt) }}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <p-button
+          [label]="language.translate('calendar.close')"
+          severity="secondary"
+          variant="outlined"
+          (click)="closeTaskDetail()"
+        >
+        </p-button>
+      </div>
+    </div>
+  }
+</p-dialog>

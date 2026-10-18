@@ -1,0 +1,447 @@
+.settings-page {
+  min-height: 100vh;
+
+  padding: 24px;
+
+  background: #f7f9fc;
+}
+
+/* HEADER */
+
+.settings-header {
+  margin: 0;
+
+  font-size: 1.4rem;
+
+  font-weight: 700;
+
+  color: #172033;
+}
+
+.settings-header p {
+  margin: 5px 0 0;
+
+  font-size: 0.82rem;
+
+  color: #64748b;
+}
+
+/* CONTENT */
+
+.settings-content {
+  width: 100%;
+
+  max-width: 850px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+/* CARD */
+
+.settings-card {
+  padding: 22px;
+
+  border: 1px solid #e8edf3;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow: 0 3px 14px rgba(15, 23, 42, 0.03);
+}
+
+/* CARD HEADER */
+
+.settings-card-header {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 22px;
+}
+
+.settings-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 11px;
+
+  color: #2563eb;
+
+  background: #eaf2ff;
+}
+
+.settings-card-header h2 {
+  margin: 0;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+.settings-card-header p {
+  margin: 3px 0 0;
+
+  font-size: 0.74rem;
+
+  color: #94a3b8;
+}
+
+/* THEME */
+
+.theme-selection {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.theme-option {
+  padding: 12px;
+
+  border: 2px solid #e7ecf3;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    border 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.theme-option:hover {
+  border-color: #adc8f7;
+}
+
+.theme-option.selected {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+.theme-preview {
+  height: 125px;
+
+  display: grid;
+
+  grid-template-columns: 28% 72%;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  border: 1px solid #e8edf3;
+}
+
+.light-preview {
+  background: #f8fafc;
+}
+
+.light-preview .preview-sidebar {
+  background: #10243f;
+}
+
+.dark-preview {
+  background: #111827;
+}
+
+.dark-preview .preview-sidebar {
+  background: #091729;
+}
+
+.preview-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+
+  padding: 10px;
+}
+
+.preview-content div {
+  height: 18px;
+
+  border-radius: 4px;
+
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.theme-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding-top: 10px;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  color: #475569;
+}
+
+/* SETTING ROW */
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.setting-row > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.setting-row strong {
+  font-size: 0.84rem;
+
+  color: #334155;
+}
+
+.setting-row span {
+  font-size: 0.73rem;
+
+  color: #94a3b8;
+}
+
+.setting-divider {
+  height: 1px;
+
+  margin: 18px 0;
+
+  background: #edf1f5;
+}
+
+/* PROFILE */
+
+.profile-preview {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+
+  color: #ffffff;
+
+  font-weight: 700;
+}
+
+.profile-preview > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.profile-preview strong {
+  font-size: 0.84rem;
+
+  color: #172033;
+}
+
+.profile-preview span {
+  font-size: 0.73rem;
+
+  color: #94a3b8;
+}
+
+.coming-soon {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 9px;
+
+  margin-top: 18px;
+
+  padding: 12px;
+
+  border-radius: 9px;
+
+  color: #46668f;
+
+  background: #f1f6fd;
+
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+/* ACTION */
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 4px 0 30px;
+}
+
+/* MOBIL */
+
+@media (max-width: 650px) {
+  .settings-page {
+    padding: 16px;
+  }
+
+  .theme-selection {
+    grid-template-columns: 1fr;
+  }
+
+  .setting-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-actions {
+    justify-content: stretch;
+  }
+
+  .settings-actions p-button {
+    width: 100%;
+  }
+}
+
+/* DARK MODE */
+
+:host-context(.app-dark) .settings-page {
+  background: #0f172a;
+}
+
+:host-context(.app-dark) .settings-header {
+  color: #f8fafc;
+}
+
+:host-context(.app-dark) .settings-header p {
+  color: #94a3b8;
+}
+
+:host-context(.app-dark) .settings-card {
+  background: #111827;
+  border-color: #273449;
+  box-shadow: none;
+}
+
+:host-context(.app-dark) .settings-icon {
+  color: #60a5fa;
+  background: #1e3a5f;
+}
+
+:host-context(.app-dark) .settings-card-header h2,
+:host-context(.app-dark) .setting-row strong,
+:host-context(.app-dark) .profile-preview strong {
+  color: #f8fafc;
+}
+
+:host-context(.app-dark) .settings-card-header p,
+:host-context(.app-dark) .setting-row span,
+:host-context(.app-dark) .profile-preview span {
+  color: #94a3b8;
+}
+
+:host-context(.app-dark) .theme-option {
+  border-color: #334155;
+}
+
+:host-context(.app-dark) .theme-option:hover {
+  border-color: #60a5fa;
+}
+
+:host-context(.app-dark) .theme-option.selected {
+  border-color: #3b82f6;
+}
+
+:host-context(.app-dark) .theme-label {
+  color: #cbd5e1;
+}
+
+:host-context(.app-dark) .setting-divider {
+  background: #334155;
+}
+
+:host-context(.app-dark) .coming-soon {
+  color: #93c5fd;
+  background: #172554;
+}
+
+/* MOBİL MENÜ DÜĞMESİ */
+
+.settings-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.menu-button {
+  width: 36px;
+  height: 36px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid #dbe4ef;
+  border-radius: 9px;
+
+  color: #334155;
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background: #eff6ff;
+}
+
+/* Ekran küçülünce hamburger düğmesini gösterir. */
+@media (max-width: 768px) {
+  .menu-button {
+    display: inline-flex;
+  }
+}
+
+/* Hamburger düğmesinin dark mode renkleri. */
+:host-context(.app-dark) .menu-button {
+  color: #bfdbfe;
+  background: #111827;
+  border-color: #334155;
+}
+
+:host-context(.app-dark) .menu-button:hover {
+  background: #1e2d44;
+}

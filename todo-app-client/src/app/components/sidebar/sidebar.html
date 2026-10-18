@@ -1,0 +1,59 @@
+<aside class="sidebar" [class.mobile-open]="isOpen">
+  <!--Logo-->
+
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <i class="pi pi-compass"></i>
+    </div>
+
+    <span class="brand-name"> your plan </span>
+
+    <button
+      type="button"
+      class="mobile-close"
+      [attr.aria-label]="language.translate('menu.close')"
+      (click)="close()"
+    >
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <!-- NAVIGATION -->
+
+  <nav class="sidebar-nav">
+    @for (item of MenuItems; track item.route) {
+      <button
+        type="button"
+        class="nav-item"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        (click)="close()"
+      >
+        <i [class]="item.icon"></i>
+
+        <span>
+          {{ language.translate(item.labelKey) }}
+        </span>
+      </button>
+    }
+
+    <button type="button" class="nav-item" (click)="logout()">
+      <i class="pi pi-sign-out" aria-hidden="true"></i>
+
+      <span>
+        {{ language.translate('nav.logout') }}
+      </span>
+    </button>
+  </nav>
+
+  <!-- KULLANICI -->
+  <div class="sidebar-user">
+    <div class="user-avatar">K</div>
+    <div class="user-info">
+      <strong>
+        {{ language.translate('user.name') }}
+      </strong>
+      <span> user@example.com </span>
+    </div>
+  </div>
+</aside>

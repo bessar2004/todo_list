@@ -1,59 +1,69 @@
-# TodoAppClient
+# Your Plan
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+Angular 21 ve ASP.NET Core 10 ile geliştirilmiş kişisel görev uygulaması. Kayıt/giriş, kullanıcıya özel görevler, Kanban panosu, takvim, raporlar ve TR/EN/AR arayüzü içerir.
 
-## Development server
+## Yerel gereksinimler
 
-To start a local development server, run:
+- .NET SDK 10
+- Node.js 22 ve npm
+- SQL Server LocalDB (Windows)
+- EF Core komut aracı (`dotnet ef`)
 
-```bash
-ng serve
+## İlk kurulum
+
+Komutları bu klasörde PowerShell ile çalıştır:
+
+```powershell
+if (-not (Test-Path appsettings.Development.json)) {
+    Copy-Item appsettings.Development.example.json appsettings.Development.json
+}
+$jwtKey = [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+dotnet user-secrets set 'Jwt:SigningKey' $jwtKey --project TodoApp.Api.csproj
+dotnet ef database update --project TodoApp.Api.csproj
+npm.cmd ci --prefix todo-app-client
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+`appsettings.Development.json` ve kullanıcı sırları Git'e eklenmez. JWT anahtarını README'ye veya kaynak koda yazma. Komut, var olan yerel ayar dosyanın üzerine yazmaz.
 
-## Code scaffolding
+## Çalıştırma
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+İki ayrı terminal aç:
 
-```bash
-ng generate component component-name
+```powershell
+dotnet run --project TodoApp.Api.csproj --launch-profile http
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
+```powershell
+Set-Location todo-app-client
+npm.cmd start
 ```
 
-## Building
+- Angular: http://localhost:4200/login
+- API / Swagger: http://localhost:5072/swagger
 
-To build the project run:
+## Şifre sıfırlama e-postası
 
-```bash
-ng build
+Şifre sıfırlama API'si, Identity'nin süresi bir saat olan token'ını kullanır. E-posta gönderimi için SMTP hesabı gereklidir. SMTP henüz ayarlanmadıysa istek `503` döner; kullanıcıya gönderilmiş gibi gösterilmez.
+
+Sağlayıcı seçtikten sonra aşağıdaki değerleri **kendi bilgisayarındaki user-secrets** içine gir; gerçek şifreleri Git'e koyma:
+
+```powershell
+dotnet user-secrets set 'Email:Smtp:Host' '<SMTP_HOST>' --project TodoApp.Api.csproj
+dotnet user-secrets set 'Email:Smtp:Port' '587' --project TodoApp.Api.csproj
+dotnet user-secrets set 'Email:Smtp:Security' 'StartTls' --project TodoApp.Api.csproj
+dotnet user-secrets set 'Email:Smtp:Username' '<SMTP_USERNAME>' --project TodoApp.Api.csproj
+dotnet user-secrets set 'Email:Smtp:Password' '<SMTP_PASSWORD>' --project TodoApp.Api.csproj
+dotnet user-secrets set 'Email:Smtp:FromAddress' '<SENDER_EMAIL>' --project TodoApp.Api.csproj
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Sağlayıcı 465 portu ve doğrudan TLS kullanıyorsa `Security` değerini `SslOnConnect` yap. Gönderici adı için isteğe bağlı `Email:Smtp:FromName` kullanılabilir. Sıfırlama bağlantısı `Auth:ResetPasswordUrl` ayarından oluşturulur; yerel örnekte `http://localhost:4200/reset-password` kullanılır.
 
-## Running unit tests
+## Kontroller
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```powershell
+dotnet test TodoApp.Api.Tests/TodoApp.Api.Tests.csproj
+npm.cmd test --prefix todo-app-client -- --watch=false
+npm.cmd run build --prefix todo-app-client
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+GitHub'a yüklemeden önce kayıt/giriş, görev CRUD işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da kontrol et.

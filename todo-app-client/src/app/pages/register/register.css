@@ -1,0 +1,270 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  color: #172033;
+  color-scheme: light;
+}
+
+:host,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Kayıt formunun beyaz kartı */
+
+.register-card {
+  width: 100%;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 16px 48px rgba(15, 42, 76, 0.07);
+  text-align: start;
+}
+
+.register-header {
+  margin-block-end: 1.5rem;
+}
+
+.register-header h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+  font-weight: 750;
+  line-height: 1.35;
+}
+.register-header p {
+  margin-block: 0.5rem 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+/* Form alanlarını alt alta dizer */
+form,
+.form-field {
+  display: grid;
+}
+
+form {
+  gap: 1rem;
+}
+
+.form-field {
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.form-field > label {
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+/* İkon, yazı alanı ve varsa göz düğmesi aynı kutuda */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 54px;
+  padding-inline: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.input-wrapper > i {
+  flex: 0 0 auto;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.input-wrapper input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding-block: 0.875rem;
+  padding-inline: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #172033;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.input-wrapper input::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+/* kutuya tikladiginda rengini mavi yapar  */
+
+.input-wrapper:focus-within {
+  border-color: #1d64d8;
+  box-shadow: 0 0 0 3px rgba(29, 100, 216, 0.15);
+}
+/* basarsiz  olursa  kirmizi regi yapar kutulari */
+
+.input-wrapper.input-invalid {
+  border-color: #b42318;
+}
+
+.input-wrapper.input-invalid:focus-within {
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+}
+/* Şifreyi göster/gizle düğmesi */
+.password-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  background: #eff6ff;
+  color: #1d64d8;
+}
+/* Şifre açıklaması ve doğrulama hataları */
+.field-hint,
+.field-error {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.field-hint {
+  color: #64748b;
+}
+
+.field-error,
+.field-hint.field-error {
+  color: #b42318;
+}
+
+.register-error {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff5f5;
+  color: #b42318;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+/* Ana kayıt düğmesi */
+.register-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #1d64d8;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  box-shadow: 0 8px 20px rgba(29, 100, 216, 0.2);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.register-submit:hover:not(:disabled) {
+  background: #154ba5;
+  box-shadow: 0 10px 24px rgba(29, 100, 216, 0.26);
+}
+
+.register-submit:disabled {
+  opacity: 0.65;
+  box-shadow: none;
+  cursor: wait;
+}
+
+.password-toggle:focus-visible,
+.register-submit:focus-visible,
+.auth-link:focus-visible {
+  outline: 3px solid #1d64d8;
+  outline-offset: 3px;
+}
+
+/* Form ile giriş bağlantısı arasındaki "veya" çizgisi */
+.register-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1.5rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.login-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.auth-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #1d64d8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.auth-link:hover {
+  color: #154ba5;
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 1.25rem;
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input-wrapper,
+  .register-submit {
+    transition: none;
+  }
+
+  .register-submit .pi-spin {
+    animation: none;
+  }
+}

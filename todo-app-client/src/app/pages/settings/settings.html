@@ -1,0 +1,227 @@
+<!-- Ayarlar kaydedildiğinde kısa başarı mesajını gösterir. -->
+<p-toast position="top-right"> </p-toast>
+
+<div class="settings-page">
+  <!-- HEADER -->
+
+  <header class="settings-header">
+    <div class="settings-title">
+      <button
+        type="button"
+        class="menu-button"
+        [attr.aria-label]="language.translate('menu.open')"
+        (click)="openMobileMenu()"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+
+      <div>
+        <h1>
+          {{ language.translate('settings.title') }}
+        </h1>
+
+        <p>
+          {{ language.translate('settings.subtitle') }}
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <div class="settings-content">
+    <!-- GÖRÜNÜM -->
+
+    <section class="settings-card">
+      <div class="settings-card-header">
+        <div class="settings-icon">
+          <i class="pi pi-palette"></i>
+        </div>
+
+        <div>
+          <h2>
+            {{ language.translate('appearance.title') }}
+          </h2>
+
+          <p>
+            {{ language.translate('appearance.description') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="theme-selection">
+        <!-- Light seçilince selectTheme(false) çalışır. -->
+        <button
+          type="button"
+          class="theme-option"
+          [class.selected]="!isDarkMode"
+          (click)="selectTheme(false)"
+        >
+          <div class="theme-preview light-preview">
+            <div class="preview-sidebar"></div>
+
+            <div class="preview-content">
+              <div></div>
+
+              <div></div>
+
+              <div></div>
+            </div>
+          </div>
+
+          <div class="theme-label">
+            <i class="pi pi-sun"></i>
+
+            <span>
+              {{ language.translate('theme.light') }}
+            </span>
+          </div>
+        </button>
+
+        <!-- Dark seçilince selectTheme(true) çalışır. -->
+        <button
+          type="button"
+          class="theme-option"
+          [class.selected]="isDarkMode"
+          (click)="selectTheme(true)"
+        >
+          <div class="theme-preview dark-preview">
+            <div class="preview-sidebar"></div>
+
+            <div class="preview-content">
+              <div></div>
+
+              <div></div>
+
+              <div></div>
+            </div>
+          </div>
+
+          <div class="theme-label">
+            <i class="pi pi-moon"></i>
+
+            <span>
+              {{ language.translate('theme.dark') }}
+            </span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- DİL SEÇİMİ -->
+
+    <section class="settings-card">
+      <div class="settings-card-header">
+        <div class="settings-icon">
+          <i class="pi pi-globe"></i>
+        </div>
+
+        <div>
+          <h2>
+            {{ language.translate('language.title') }}
+          </h2>
+
+          <p>
+            {{ language.translate('language.description') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <p-select
+          [(ngModel)]="selectedLanguage"
+          [options]="languageOptions"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-select>
+      </div>
+    </section>
+
+    <!-- GÖREV TERCİHLERİ -->
+
+    <section class="settings-card">
+      <div class="settings-card-header">
+        <div class="settings-icon">
+          <i class="pi pi-sliders-h"></i>
+        </div>
+
+        <div>
+          <h2>{{ language.translate('tasks.title') }}</h2>
+          <p>{{ language.translate('tasks.description') }}</p>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <strong>{{ language.translate('priority.title') }}</strong>
+          <span>{{ language.translate('priority.description') }}</span>
+        </div>
+
+        <!-- Seçilen önceliği defaultPriority değişkenine bağlar. -->
+        <p-select
+          [(ngModel)]="defaultPriority"
+          [options]="priorityOptions"
+          optionLabel="label"
+          optionValue="value"
+        >
+        </p-select>
+      </div>
+
+      <div class="setting-divider"></div>
+
+      <div class="setting-row">
+        <div>
+          <strong>{{ language.translate('notifications.title') }}</strong>
+          <span>{{ language.translate('notifications.description') }}</span>
+        </div>
+
+        <!-- Bildirim tercihini notificationsEnabled değişkenine bağlar. -->
+        <p-toggleswitch [(ngModel)]="notificationsEnabled"> </p-toggleswitch>
+      </div>
+    </section>
+
+    <!-- PROFİL -->
+
+    <section class="settings-card">
+      <div class="settings-card-header">
+        <div class="settings-icon">
+          <i class="pi pi-user"></i>
+        </div>
+
+        <div>
+          <h2>{{ language.translate('profile.title') }}</h2>
+          <p>{{ language.translate('profile.description') }}</p>
+        </div>
+      </div>
+
+      <div class="profile-preview">
+        <div class="profile-avatar">K</div>
+
+        <div>
+          <strong>{{ language.translate('user.name') }}</strong>
+
+          <span> user@example.com </span>
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        <i class="pi pi-info-circle"> </i>
+
+        <span>
+          {{ language.translate('profile.comingSoon') }}
+        </span>
+      </div>
+    </section>
+
+    <!-- SAVE -->
+
+    <div class="settings-actions">
+      <!-- Tıklanınca settings.ts içindeki saveSettings() çalışır. -->
+      <p-button
+        [label]="language.translate('settings.save')"
+        icon="pi pi-check"
+        (click)="saveSettings()"
+      >
+      </p-button>
+    </div>
+  </div>
+</div>

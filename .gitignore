@@ -1,44 +1,28 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Local configuration can contain JWT signing keys or machine-specific settings.
+appsettings.Development.json
+appsettings.*.local.json
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# .NET and test outputs
+**/bin/
+**/obj/
+**/TestResults/
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
+# Angular and Node outputs
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
 
-# IDEs and editors
+# Local scratch files and generated documents
+/tmp/
+/output/
+/.codex-runtime/
+
+# Editor / OS files
+.vs/
+/.vscode/
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/mcp.json
-.history/*
-
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-__screenshots__/
-
-# System files
+*.user
+*.suo
 .DS_Store
 Thumbs.db

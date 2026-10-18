@@ -1,0 +1,528 @@
+<p-toast position="top-right"> </p-toast>
+
+<p-confirmdialog> </p-confirmdialog>
+
+<!--UST BAR -->
+<header class="topbar">
+  <!--sol-->
+
+  <div class="topbar-title">
+    <button
+      type="button"
+      class="menu-button"
+      [attr.aria-label]="language.translate('menu.open')"
+      (click)="openMobileMenu()"
+    >
+      <i class="pi pi-bars"></i>
+    </button>
+
+    <div>
+      <h1>{{ language.translate('taskList.title') }}</h1>
+      <p>{{ language.translate('taskList.subtitle') }}</p>
+    </div>
+  </div>
+
+  <!-- SAĞ -->
+
+  <div class="topbar-actions">
+    <!-- Arama-->
+
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="searchTerm"
+        [placeholder]="language.translate('taskList.searchPlaceholder')"
+      />
+    </div>
+
+    <!-- ÖNCELİK -->
+
+    <p-select
+      [(ngModel)]="selectedPriority"
+      [options]="filterPriorityOptions"
+      optionLabel="label"
+      optionValue="value"
+      [showClear]="true"
+      [placeholder]="language.translate('taskList.allPriorities')"
+    >
+    </p-select>
+
+    <!-- DURUM -->
+    <p-select
+      [(ngModel)]="selectedStatus"
+      [options]="filterStatusOptions"
+      optionLabel="label"
+      optionValue="value"
+      [showClear]="true"
+      [placeholder]="language.translate('taskList.allStatuses')"
+    >
+    </p-select>
+
+    <!-- YENİ GÖREV -->
+    <app-todo-form (todoCreated)="onTodoCreated($event)"></app-todo-form>
+
+    <!-- LIGHT / DARK -->
+    <button
+      type="button"
+      class="theme-button"
+      [class.active]="!preferences.isDarkMode()"
+      (click)="preferences.setTheme(false)"
+    >
+      <i class="pi pi-sun"></i>
+      {{ language.translate('theme.light') }}
+    </button>
+
+    <button
+      type="button"
+      class="theme-button"
+      [class.active]="preferences.isDarkMode()"
+      (click)="preferences.setTheme(true)"
+    >
+      <i class="pi pi-moon"></i>
+      {{ language.translate('theme.dark') }}
+    </button>
+  </div>
+
+  <!-- BİLDİRİM -->
+  <div class="notification-wrapper">
+    <!-- Ekran okuyucuya panelin durumunu ve okunmamış sayısını bildirir. -->
+    <button
+      type="button"
+      class="notification-button"
+      (click)="toggleNotificationPanel()"
+      [attr.aria-expanded]="notificationPanelVisible"
+      [attr.aria-label]="
+        language.translate('notification.ariaLabel', { count: unreadNotificationCount })
+      "
+      aria-controls="notification-panel"
+    >
+      <i class="pi pi-bell"></i>
+
+      @if (unreadNotificationCount > 0) {
+        <span class="notification-count">{{ unreadNotificationCount }}</span>
+      }
+    </button>
+
+    @if (notificationPanelVisible) {
+      <div
+        id="notification-panel"
+        class="notification-panel"
+        role="dialog"
+        [attr.aria-label]="language.translate('notification.listLabel')"
+      >
+        <div class="notification-panel-header">
+          <strong>{{ language.translate('notification.title') }}</strong>
+
+          <span>{{ notifications.length }}</span>
+        </div>
+
+        @if (notifications.length === 0) {
+          <div class="notification-empty">
+            <i class="pi pi-check-circle"></i>
+
+            <p>{{ language.translate('notification.empty') }}</p>
+          </div>
+        } @else {
+          <div class="notification-list">
+            @for (notification of notifications; track notification.key) {
+              <div
+                class="notification-item"
+                [class.notification-item-overdue]="notification.type === 'overdue'"
+                [class.notification-item-read]="readNotificationKeys().includes(notification.key)"
+              >
+                <div
+                  class="notification-item-main"
+                  role="button"
+                  tabindex="0"
+                  (click)="openNotification(notification)"
+                  (keydown.enter)="openNotification(notification)"
+                  (keydown.space)="$event.preventDefault(); openNotification(notification)"
+                >
+                  <div class="notification-item-icon">
+                    <i
+                      [class]="
+                        notification.type === 'overdue' ? 'pi pi-exclamation-circle' : 'pi pi-clock'
+                      "
+                    ></i>
+                  </div>
+
+                  <div class="notification-item-content">
+                    <strong>{{ notification.title }}</strong>
+                    <p>{{ notification.message }}</p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="notification-dismiss"
+                  [attr.aria-label]="
+                    language.translate('notification.dismissLabel', { title: notification.title })
+                  "
+                  (click)="dismissNotification(notification.key)"
+                >
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</header>
+
+<!-- Yapilacak-->
+<main class="kanban-board">
+  <section class="kanban-column todo-column">
+    <div class="column-header">
+      <div>
+        <h2>{{ language.translate('taskList.todoTitle') }}</h2>
+        <span>{{ language.translate('taskList.todoDescription') }}</span>
+      </div>
+
+      <div class="task-count">
+        {{ todoTasks.length }}
+      </div>
+    </div>
+
+    <div
+      class="task-list"
+      cdkDropList
+      id="todoList"
+      [cdkDropListData]="todoTasks"
+      [cdkDropListConnectedTo]="['progressList', 'doneList']"
+      [cdkDropListSortingDisabled]="true"
+      (cdkDropListDropped)="drop($event, TodoStatus.Todo)"
+    >
+      @for (todo of todoTasks; track todo.id) {
+        <article class="task-card" cdkDrag [cdkDragData]="todo">
+          <div class="task-card-header">
+            <h3>{{ todo.title }}</h3>
+            <div class="task-actions">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                [pTooltip]="language.translate('taskList.edit')"
+                (click)="openEditDialog(todo)"
+              >
+              </p-button>
+
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                [pTooltip]="language.translate('taskList.delete')"
+                (click)="deleteTodo(todo)"
+              >
+              </p-button>
+            </div>
+          </div>
+
+          @if (todo.description) {
+            <p class="task-description">
+              {{ todo.description }}
+            </p>
+          }
+
+          <div class="task-meta">
+            <span class="priority-badge" [class]="getPriorityClass(todo.priority)">
+              <span class="priority-dot"></span>
+              {{ getPriorityLabel(todo.priority) }}
+            </span>
+
+            @if (todo.dueDate) {
+              <span class="due-date">
+                <i class="pi pi-calendar"></i>
+
+                {{ language.formatDate(todo.dueDate) }}
+              </span>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-column">
+          <i class="pi pi-inbox"></i>
+          <p>{{ language.translate('taskList.empty') }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!--Devam ediyor-->
+
+  <section class="kanban-column progress-column">
+    <div class="column-header">
+      <div>
+        <h2>{{ language.translate('taskList.progressTitle') }}</h2>
+        <span>{{ language.translate('taskList.progressDescription') }}</span>
+      </div>
+
+      <div class="task-count">{{ inProgressTasks.length }}</div>
+    </div>
+
+    <div
+      class="task-list"
+      cdkDropList
+      id="progressList"
+      [cdkDropListData]="inProgressTasks"
+      [cdkDropListConnectedTo]="['todoList', 'doneList']"
+      [cdkDropListSortingDisabled]="true"
+      (cdkDropListDropped)="drop($event, TodoStatus.InProgress)"
+    >
+      @for (todo of inProgressTasks; track todo.id) {
+        <article class="task-card" cdkDrag [cdkDragData]="todo">
+          <div class="task-card-header">
+            <h3>{{ todo.title }}</h3>
+
+            <div class="task-actions">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                [pTooltip]="language.translate('taskList.edit')"
+                (click)="openEditDialog(todo)"
+              ></p-button>
+
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                [pTooltip]="language.translate('taskList.delete')"
+                (click)="deleteTodo(todo)"
+              ></p-button>
+            </div>
+          </div>
+
+          @if (todo.description) {
+            <p class="task-description">
+              {{ todo.description }}
+            </p>
+          }
+
+          <div class="task-meta">
+            <span class="priority-badge" [class]="getPriorityClass(todo.priority)">
+              <span class="priority-dot"></span>
+              {{ getPriorityLabel(todo.priority) }}
+            </span>
+
+            @if (todo.dueDate) {
+              <span class="due-date">
+                <i class="pi pi-calendar"></i>
+                {{ language.formatDate(todo.dueDate) }}
+              </span>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-column">
+          <i class="pi pi-inbox"></i>
+          <p>{{ language.translate('taskList.empty') }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- TAMAMLANDI -->
+
+  <section class="kanban-column done-column">
+    <div class="column-header">
+      <div>
+        <h2>{{ language.translate('taskList.completedTitle') }}</h2>
+        <span>{{ language.translate('taskList.completedDescription') }}</span>
+      </div>
+
+      <div class="task-count">
+        {{ doneTasks.length }}
+      </div>
+    </div>
+
+    <div
+      class="task-list"
+      cdkDropList
+      id="doneList"
+      [cdkDropListData]="doneTasks"
+      [cdkDropListConnectedTo]="['todoList', 'progressList']"
+      [cdkDropListSortingDisabled]="true"
+      (cdkDropListDropped)="drop($event, TodoStatus.Completed)"
+    >
+      @for (todo of doneTasks; track todo.id) {
+        <article class="task-card" cdkDrag [cdkDragData]="todo">
+          <div class="task-card-header">
+            <h3>{{ todo.title }}</h3>
+
+            <div class="task-actions">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                [text]="true"
+                severity="secondary"
+                [pTooltip]="language.translate('taskList.edit')"
+                (click)="openEditDialog(todo)"
+              >
+              </p-button>
+
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                [text]="true"
+                severity="danger"
+                [pTooltip]="language.translate('taskList.delete')"
+                (click)="deleteTodo(todo)"
+              >
+              </p-button>
+            </div>
+          </div>
+
+          @if (todo.description) {
+            <p class="task-description">
+              {{ todo.description }}
+            </p>
+          }
+
+          <div class="task-meta">
+            <span class="priority-badge" [class]="getPriorityClass(todo.priority)">
+              <span class="priority-dot"></span>
+
+              {{ getPriorityLabel(todo.priority) }}
+            </span>
+
+            @if (todo.dueDate) {
+              <span class="due-date">
+                <i class="pi pi-calendar"></i>
+                {{ language.formatDate(todo.dueDate) }}
+              </span>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="empty-column">
+          <i class="pi pi-check-circle"></i>
+          <p>{{ language.translate('taskList.emptyCompleted') }}</p>
+        </div>
+      }
+    </div>
+  </section>
+</main>
+
+<p-dialog
+  [header]="language.translate('todoEdit.dialogTitle')"
+  [(visible)]="editDialogVisible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{
+    width: 'min(560px,92vw)',
+  }"
+>
+  <form [formGroup]="editForm" (ngSubmit)="updateTodo()" class="edit-task-form">
+    <!-- BAŞLIK -->
+
+    <div class="edit-field">
+      <label for="editTitle"
+        >{{ language.translate('todoForm.title') }}
+
+        <span class="required">*</span>
+      </label>
+
+      <input
+        id="editTitle"
+        type="text"
+        pInputText
+        formControlName="title"
+        [placeholder]="language.translate('todoForm.titlePlaceholder')"
+      />
+
+      @if (editForm.controls.title.touched && editForm.controls.title.hasError('required')) {
+        <small class="validation-error"> {{ language.translate('todoForm.titleRequired') }} </small>
+      }
+    </div>
+
+    <!-- AÇIKLAMA -->
+
+    <div class="edit-field">
+      <label for="editDescription"> {{ language.translate('todoForm.description') }} </label>
+
+      <textarea
+        id="editDescription"
+        pTextarea
+        formControlName="description"
+        rows="4"
+        [autoResize]="true"
+        [placeholder]="language.translate('todoForm.descriptionPlaceholder')"
+      ></textarea>
+      <!-- DURUM + ÖNCELİK -->
+
+      <div class="edit-row">
+        <div class="edit-field">
+          <label> {{ language.translate('todoEdit.status') }} </label>
+
+          <p-select
+            formControlName="status"
+            [options]="statusOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="language.translate('todoEdit.statusPlaceholder')"
+          ></p-select>
+        </div>
+
+        <div class="edit-field">
+          <label> {{ language.translate('todoForm.priority') }} </label>
+
+          <p-select
+            formControlName="priority"
+            [options]="priorityOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="language.translate('todoForm.priorityPlaceholder')"
+          >
+          </p-select>
+        </div>
+      </div>
+
+      <!--tarih-->
+
+      <div class="edit-field">
+        <label> {{ language.translate('todoForm.dueDate') }} </label>
+
+        <p-date-picker
+          formControlName="dueDate"
+          [dateFormat]="language.datePickerFormat"
+          [showIcon]="true"
+          [showButtonBar]="true"
+          appendTo="body"
+          [placeholder]="language.translate('todoForm.dueDatePlaceholder')"
+        >
+        </p-date-picker>
+      </div>
+
+      <!--butonlar-->
+
+      <div class="edit-actions">
+        <p-button
+          type="button"
+          [label]="language.translate('todoForm.cancel')"
+          severity="secondary"
+          variant="outlined"
+          (click)="closeEditDialog()"
+        >
+        </p-button>
+
+        <p-button
+          type="submit"
+          [label]="language.translate('todoEdit.save')"
+          icon="pi pi-check"
+          [loading]="isUpdating"
+        >
+        </p-button>
+      </div>
+    </div>
+  </form>
+</p-dialog>

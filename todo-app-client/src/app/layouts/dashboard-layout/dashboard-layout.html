@@ -1,0 +1,11 @@
+<div class="dashboard-layout">
+  <app-sidebar [isOpen]="sidebarState.isOpen()" (closeSidebar)="closeSidebar()"> </app-sidebar>
+
+  @if (sidebarState.isOpen()) {
+    <div class="sidebar-overlay" (click)="closeSidebar()"></div>
+  }
+
+  <main class="dashboard-content">
+    <router-outlet> </router-outlet>
+  </main>
+</div>

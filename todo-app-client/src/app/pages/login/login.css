@@ -1,0 +1,313 @@
+/* Component ve elemanların temel ölçüleri */
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  color: #172033;
+
+  color-scheme: light;
+}
+
+:host,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Formun tamamını kapsayan beyaz kart */
+
+.login-card {
+  width: 100%;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 16px 48px rgba(15, 42, 76, 0.07);
+  text-align: start;
+}
+
+/* Başlık ve açıklama */
+.login-header {
+  margin-block-end: 2rem;
+}
+
+.login-header h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.login-header p {
+  margin-block: 0.75rem 0;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Form bölümleri arasındaki boşluk */
+
+form {
+  display: grid; /* iki boyutlu  */
+  gap: 1.25rem;
+}
+/* Etiket, giriş kutusu ve hata mesajının kapsayıcısı */
+
+.form-field {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+/*sınıfının içindeki doğrudan label elemanlarını seçer.
+Yani “form alanı içindeki etiketler” demektir.  */
+
+.form-field > label {
+  color: #334155; /* rengi ayarlar  */
+  font-size: 0.9rem; /* yazının boyutunu biraz küçük tutar. normal metin boyutunun %90’ı gibi düşün. */
+  font-weight: 600; /* Yazinin kalinligini ayarlar  */
+  line-height: 1.5; /* satir yuksekligi ayarlanir */
+}
+
+/* İkon ve input aynı kutunun içinde */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 58px;
+  padding-inline: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.input-wrapper > i {
+  flex: 0 0 auto;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.input-wrapper input {
+  flex: 1; /*esnek bir sekilde buyumesini saglar   */
+  width: 100%;
+  min-width: 0; /* Dar alanda küçülebilmesini sağlayarak taşmayı önler. */
+  padding-block: 1rem; /*alt-ust  bosluk verir   */
+  padding-inline: 0; /* sol-sag  bosluk verir   */
+  border: 0; /* kenarlik vermez   */
+  outline: none; /* dis cerceviyi kaldirir   */
+  background: transparent; /*arka plan seffaf */
+  color: #172033;
+  font: inherit; /*ebeveyin yazi stilini alir */
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.input-wrapper input::placeholder {
+  color: #64748b; /* rengi ayarlar  */
+  opacity: 1; /*tam gorunur  olur seffaflasmaz */
+}
+
+/* İçindeki input veya düğme odaklandığında */
+
+.input-wrapper:focus-within {
+  border-color: #1d64d8;
+  box-shadow: 0 0 0 3px rgba(29, 100, 216, 0.15);
+}
+
+/* Angular input-invalid sınıfını eklediğinde */
+.input-wrapper.input-invalid {
+  border-color: #b42318;
+}
+
+.input-wrapper.input-invalid:focus-within {
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+}
+
+/* Şifreyi göster/gizle düğmesi */
+.password-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  cursor: pointer;
+}
+.password-toggle:hover {
+  background: #eff6ff;
+  color: #1d64d8;
+}
+/* Alanların altındaki doğrulama mesajları */
+
+.field-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Beni hatırla ve şifremi unuttum satırı */
+.login-options {
+  display: flex;
+  flex-wrap: wrap; /* Beni hatırla ve şifremi unuttum satırı */
+
+  align-items: center;
+  justify-content: space-between; /* iki elemani dagitir biri sola biri saga   */
+  gap: 0.5rem 1rem;
+}
+
+.remember-me {
+  display: inline-flex; /* elemanlari yan yana dizer */
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.remember-me input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #1d64d8;
+  cursor: pointer;
+}
+
+/* Kayıt ve şifre sıfırlama bağlantıları */
+.auth-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #1d64d8;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.auth-link:hover {
+  color: #154ba5;
+}
+
+/* Backend hatası için ayrılan mesaj alanı */
+
+.login-error {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff5f5;
+  color: #b42318;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Ana giriş düğmesi */
+.login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #1d64d8;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  box-shadow: 0 8px 20px rgba(29, 100, 216, 0.2);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.login-submit:hover:not(:disabled) {
+  background: #154ba5;
+  box-shadow: 0 10px 24px rgba(29, 100, 216, 0.26);
+}
+
+.login-submit:disabled {
+  opacity: 0.65;
+  box-shadow: none;
+  cursor: wait;
+}
+/* Klavyeyle odaklanılan elemanı belirginleştirir */
+.password-toggle:focus-visible,
+.login-submit:focus-visible,
+.auth-link:focus-visible,
+.remember-me input:focus-visible {
+  outline: 3px solid #1d64d8;
+  outline-offset: 3px;
+}
+
+/* İki çizginin arasındaki "veya" yazısı */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1.75rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+/* Hesabın yok mu? Kayıt Ol */
+.register-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Küçük ekranlarda seçenekleri alt alta yerleştir */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.25rem;
+    border-radius: 18px;
+  }
+
+  .login-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Hareketi azaltma tercihini uygula */
+@media (prefers-reduced-motion: reduce) {
+  .input-wrapper,
+  .login-submit {
+    transition: none;
+  }
+
+  .login-submit .pi-spin {
+    animation: none;
+  }
+}

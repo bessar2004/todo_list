@@ -1,0 +1,32 @@
+@TodoApp.Api_HostAddress = http://localhost:5072
+
+### Kayıt (gerçek şifreyi dosyaya kaydetme)
+POST {{TodoApp.Api_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Test User",
+  "email": "replace@example.com",
+  "password": "",
+  "confirmPassword": ""
+}
+
+### Giriş
+POST {{TodoApp.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "replace@example.com",
+  "password": ""
+}
+
+### Şifre sıfırlama bağlantısı isteği (SMTP yapılandırması gerekir)
+POST {{TodoApp.Api_HostAddress}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "replace@example.com",
+  "language": "tr"
+}
+
+###

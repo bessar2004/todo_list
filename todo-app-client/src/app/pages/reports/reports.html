@@ -1,0 +1,240 @@
+<div class="reports-page">
+  <!-- HEADER -->
+
+  <header class="reports-header">
+    <div class="reports-title">
+      <button
+        type="button"
+        class="menu-button"
+        [attr.aria-label]="language.translate('menu.open')"
+        (click)="openMobileMenu()"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+
+      <div>
+        <h1>
+          {{ language.translate('reports.title') }}
+        </h1>
+
+        <p>
+          {{ language.translate('reports.subtitle') }}
+        </p>
+      </div>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div class="loading-state">
+      <i class="pi pi-spin pi-spinner"></i>
+
+      <span>
+        {{ language.translate('reports.loading') }}
+      </span>
+    </div>
+  } @else if (hasLoadError()) {
+    <div class="error-state" role="alert">
+      <i class="pi pi-exclamation-triangle"></i>
+
+      <span>
+        {{ language.translate('reports.loadError') }}
+      </span>
+
+      <button type="button" class="retry-button" (click)="loadReportData()">
+        {{ language.translate('reports.retry') }}
+      </button>
+    </div>
+  } @else {
+    <!-- İSTATİSTİK KARTLARI -->
+
+    <section class="stats-grid">
+      <!-- TOPLAM -->
+
+      <article class="stat-card">
+        <div class="stat-icon total-icon">
+          <i class="pi pi-list"></i>
+        </div>
+
+        <div class="stat-info">
+          <span>
+            {{ language.translate('reports.totalTasks') }}
+          </span>
+
+          <strong>
+            {{ language.formatNumber(totalCount) }}
+          </strong>
+        </div>
+      </article>
+
+      <!-- TAMAMLANAN -->
+
+      <article class="stat-card">
+        <div class="stat-icon done-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+
+        <div class="stat-info">
+          <span>
+            {{ language.translate('reports.completed') }}
+          </span>
+
+          <strong>
+            {{ language.formatNumber(doneCount) }}
+          </strong>
+        </div>
+      </article>
+
+      <!-- DEVAM EDEN -->
+
+      <article class="stat-card">
+        <div class="stat-icon progress-icon">
+          <i class="pi pi-clock"></i>
+        </div>
+
+        <div class="stat-info">
+          <span>
+            {{ language.translate('reports.inProgress') }}
+          </span>
+
+          <strong>
+            {{ language.formatNumber(inProgressCount) }}
+          </strong>
+        </div>
+      </article>
+
+      <!-- GECİKEN -->
+
+      <article class="stat-card">
+        <div class="stat-icon overdue-icon">
+          <i class="pi pi-exclamation-triangle"></i>
+        </div>
+
+        <div class="stat-info">
+          <span>
+            {{ language.translate('reports.overdue') }}
+          </span>
+
+          <strong>
+            {{ language.formatNumber(overdueCount) }}
+          </strong>
+        </div>
+      </article>
+    </section>
+
+    <!-- TAMAMLANMA ORANI -->
+
+    <section class="completion-card">
+      <div class="completion-header">
+        <div>
+          <span>
+            {{ language.translate('reports.completionRate') }}
+          </span>
+
+          <p>
+            {{ language.translate('reports.completionDescription') }}
+          </p>
+        </div>
+
+        <strong>
+          {{ language.formatPercent(completionRate) }}
+        </strong>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-value" [style.width.%]="completionRate"></div>
+      </div>
+    </section>
+
+    <!-- GRAFİKLER -->
+
+    <section class="charts-grid">
+      <!-- DURUM GRAFİĞİ -->
+
+      <article class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h2>
+              {{ language.translate('reports.statusChartTitle') }}
+            </h2>
+
+            <p>
+              {{ language.translate('reports.statusChartDescription') }}
+            </p>
+          </div>
+        </div>
+
+        <div class="chart-wrapper doughnut-wrapper">
+          <p-chart type="doughnut" [data]="statusChartData" [options]="statusChartOptions">
+          </p-chart>
+        </div>
+      </article>
+
+      <!-- PRIORITY -->
+
+      <article class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h2>
+              {{ language.translate('reports.priorityChartTitle') }}
+            </h2>
+
+            <p>
+              {{ language.translate('reports.priorityChartDescription') }}
+            </p>
+          </div>
+        </div>
+
+        <div class="chart-wrapper">
+          <p-chart type="bar" [data]="priorityChartData" [options]="priorityChartOptions">
+          </p-chart>
+        </div>
+      </article>
+    </section>
+
+    <!-- ALT ÖZET -->
+
+    <section class="report-summary">
+      <div>
+        <span class="summary-dot todo-dot"></span>
+
+        <div>
+          <strong>
+            {{ language.formatNumber(todoCount) }}
+          </strong>
+
+          <span>
+            {{ language.translate('taskList.todoTitle') }}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <span class="summary-dot progress-dot"></span>
+
+        <div>
+          <strong>
+            {{ language.formatNumber(inProgressCount) }}
+          </strong>
+
+          <span>
+            {{ language.translate('taskList.progressTitle') }}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <span class="summary-dot done-dot"></span>
+
+        <div>
+          <strong>
+            {{ language.formatNumber(doneCount) }}
+          </strong>
+
+          <span>
+            {{ language.translate('taskList.completedTitle') }}
+          </span>
+        </div>
+      </div>
+    </section>
+  }
+</div>

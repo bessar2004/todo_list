@@ -1,0 +1,161 @@
+/* "Yeni Görev" butonunu bulunduğu satırın sağ tarafına yerleştirir. */
+.new-task-action {
+  display: flex; /* İçindeki elemanları esnek kutu düzenine geçirir. */
+  justify-content: flex-end; /* Butonu yatay eksende sağa yaslar. */
+}
+:host ::ng-deep .new-task-action .new-task-button.p-button {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+:host ::ng-deep .new-task-action .new-task-button.p-button:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Öncelik ve son tarih alanlarını iki eşit sütunda yan yana gösterir. */
+.form-row {
+  display: grid; /* Alanları ızgara düzenine geçirir. */
+  grid-template-columns: 1fr 1fr; /* İki eşit genişlikte sütun oluşturur. */
+  gap: 12px; /* Sütunlar arasında 12 piksel boşluk bırakır. */
+}
+
+/* Form alanlarını yukarıdan aşağıya sıralar. */
+.task-form {
+  display: flex;
+  flex-direction: column; /* Form gruplarını alt alta dizer. */
+  gap: 16px; /* Form grupları arasındaki dikey boşluk. */
+  padding-top: 2px; /* Formun üst tarafında küçük bir iç boşluk bırakır. */
+}
+
+/* Her etiket ile ona ait giriş alanını alt alta dizer. */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px; /* Etiket ile giriş alanı arasındaki boşluk. */
+}
+
+/* Başlık, açıklama, öncelik ve tarih etiketlerinin görünümü. */
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 600; /* Etiket yazısını yarı kalın gösterir. */
+  color: var(--p-text-color); /* Açık/koyu temaya göre otomatik değişir. */
+}
+
+/* Normal input ve textarea alanlarını bulundukları alanın tamamına yayar. */
+.form-field input,
+.form-field textarea {
+  width: 100%;
+}
+
+/* PrimeNG öncelik ve tarih bileşenlerini tam genişlikte gösterir. */
+.form-field p-select,
+.form-field p-date-picker {
+  width: 100%;
+}
+
+/* Yalnızca görev oluşturma dialogunun genel görünümünü düzenler. */
+/* :host bu bileşeni, ::ng-deep ise PrimeNG'in iç elemanlarını hedefler. */
+:host ::ng-deep .task-dialog {
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+  border: 1px solid var(--p-content-border-color);
+  box-shadow: 0 18px 45px rgb(15 23 42 / 0.18); /* Dialoga derinlik verir. */
+}
+
+/* Dialog başlığının iç boşluklarını ayarlar. */
+:host ::ng-deep .task-dialog .p-dialog-header {
+  padding: 20px 20px 12px;
+}
+
+/* "Yeni Görev Oluştur" başlık yazısının görünümü. */
+:host ::ng-deep .task-dialog .p-dialog-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Dialog içindeki formun kenarlara olan uzaklığını ayarlar. */
+:host ::ng-deep .task-dialog .p-dialog-content {
+  padding: 10px 20px 20px;
+}
+
+/* Dialogdaki metin kutusu, açıklama ve seçim alanlarının görünümü. */
+:host ::ng-deep .task-dialog .p-inputtext,
+:host ::ng-deep .task-dialog .p-textarea,
+:host ::ng-deep .task-dialog .p-select {
+  width: 100%;
+}
+
+/* Tarih bileşeni ile içindeki yazı kutusunu tam genişlikte gösterir. */
+:host ::ng-deep .task-dialog .p-datepicker,
+:host ::ng-deep .task-dialog .p-datepicker-input {
+  width: 100%;
+}
+
+/* Sayfa gövdesinde açılan takvim paneline aynı yazı tipini uygular. */
+:host ::ng-deep .task-datepicker-panel {
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+}
+
+/* Sayfa gövdesinde açılan öncelik listesine aynı yazı tipini uygular. */
+:host ::ng-deep .task-select-panel {
+  font-family: Inter, 'Segoe UI', Arial, sans-serif;
+}
+
+/* "En fazla 500 karakter" gibi yardımcı yazıların görünümü. */
+.helper-text {
+  font-size: 0.78rem; /* Yazıyı ana metinden küçük gösterir. */
+  opacity: 0.65; /* Yazıyı daha soluk gösterir. */
+}
+
+/* Form doğrulama hatalarını küçük ve kırmızı gösterir. */
+.validation-error {
+  font-size: 0.78rem;
+  color: #dc2626;
+}
+
+/* Zorunlu alanların yanındaki yıldız işaretini kırmızı yapar. */
+.required {
+  color: #dc2626;
+}
+
+/* Dialogun altındaki İptal ve Görev Oluştur butonlarını sağa dizer. */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* İki buton arasındaki boşluk. */
+  padding: 16px 0 0;
+  margin: 0;
+  border-top: 1px solid rgb(128, 128, 128, 0.2);
+}
+
+/* Görev Oluştur butonunun normal görünümü. */
+:host ::ng-deep .task-dialog .create-task-button.p-button {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+/* Fare Görev Oluştur butonunun üzerindeyken daha koyu mavi gösterir. */
+:host ::ng-deep .task-dialog .create-task-button.p-button:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* Telefon gibi 600 piksel ve daha dar ekranlar için görünüm kuralları. */
+@media (max-width: 600px) {
+  /* Öncelik ve tarihi küçük ekranda yan yana değil, alt alta gösterir. */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Butonların sırasını ters çevirerek alt alta dizer. */
+  .dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  /* Küçük ekranda her butonu kullanılabilir genişliğin tamamına yayar. */
+  .dialog-actions p-button {
+    width: 100%;
+  }
+}

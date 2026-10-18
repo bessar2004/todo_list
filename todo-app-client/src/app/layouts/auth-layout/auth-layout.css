@@ -1,0 +1,414 @@
+:host,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Kullanıcı hareketleri azaltmayı seçmişse */
+
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.auth-shell {
+  min-height: 100dvh;
+  display: grid;
+
+  grid-template-columns:
+    minmax(420px, 0.9fr)
+    minmax(500px, 1.1fr);
+
+  overflow: hidden; /* tasan kismi gizle   */
+
+  color: #172033;
+
+  background: #f8fafc;
+}
+
+.auth-brand-panel {
+  position: relative;
+
+  isolation: isolate;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: clamp(2rem, 5vw, 5rem);
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 15% 90%, rgba(37, 99, 235, 0.32), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.18), transparent 32%),
+    linear-gradient(145deg, #132a46 0%, #0d2139 55%, #091a30 100%);
+}
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+
+  width: min(100%, 620px);
+
+  margin-inline: auto;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.auth-brand-logo {
+  width: 66px;
+  height: 66px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  font-size: 1.85rem;
+  color: #ffffff;
+  background: linear-gradient(145deg, #3b82f6, #1267e8);
+  box-shadow:
+    0 18px 42px rgba(0, 94, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.auth-brand-name {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.brand-message {
+  margin-block-start: clamp(4rem, 10vh, 7rem);
+}
+
+.brand-message h1 {
+  max-width: 580px;
+  margin: 0;
+  font-size: clamp(2.3rem, 4.6vw, 4.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em; /* harfleri birbirne getir */
+}
+
+.brand-accent {
+  width: 58px;
+  height: 5px;
+  display: block;
+  margin-block: 1.6rem;
+  border-radius: 999px;
+  background: #38a6ff;
+  box-shadow: 0 0 18px rgba(56, 166, 255, 0.7);
+}
+
+.brand-message p {
+  max-width: 570px;
+  margin: 0;
+  color: #c7d5e8;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.75;
+}
+
+/* ARKA PLAN SÜSLERİ */
+
+.brand-decoration {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.brand-decoration-large {
+  width: 420px;
+  height: 420px;
+  inset-inline-start: -230px;
+  inset-block-end: -250px;
+  border: 70px solid rgba(46, 126, 255, 0.16);
+}
+
+.brand-decoration-small {
+  width: 180px;
+  height: 180px;
+  inset-inline-end: -95px;
+  inset-block-start: 12%;
+  border: 36px solid rgba(255, 255, 255, 0.035);
+}
+
+/* MİNİ KANBAN */
+
+.mini-kanban {
+  width: min(100%, 590px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-block-start: clamp(3rem, 7vh, 5rem);
+  padding: 1rem;
+  border: 1px solid rgba(116, 181, 255, 0.35);
+  border-radius: 20px;
+  background: rgba(5, 22, 42, 0.48);
+  box-shadow:
+    0 28px 70px rgba(1, 10, 24, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  animation: kanban-float 6s ease-in-out infinite;
+}
+
+.kanban-column {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.kanban-column-active {
+  border-color: rgba(47, 145, 255, 0.55);
+  background: rgba(39, 117, 226, 0.13);
+}
+
+.kanban-column h2 {
+  overflow: hidden; /* tasmasini engeller */
+  margin: 0 0 0.8rem;
+  color: #dce8f8;
+  font-size: clamp(0.66rem, 1vw, 0.78rem);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kanban-card {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 40px;
+  margin-block-start: 0.55rem;
+  padding-inline: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 16px rgba(0, 8, 20, 0.18);
+}
+
+.kanban-status {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 2px solid #aeb9c8;
+  border-radius: 50%;
+}
+
+.kanban-status i {
+  font-size: 0.5rem;
+}
+
+.kanban-line {
+  width: 65%;
+  height: 6px;
+  border-radius: 999px;
+  background: #c5ceda;
+}
+
+.kanban-line-short {
+  width: 45%;
+}
+
+.kanban-card-completed .kanban-status {
+  border-color: #34a987;
+  color: #ffffff;
+  background: #34a987;
+}
+
+.kanban-card-completed .kanban-line {
+  background: #a8b8b4;
+}
+
+/* SAĞ FORM PANELİ */
+
+.auth-form-panel {
+  position: relative;
+  min-width: 0;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.25rem, 6vw, 6rem);
+  background: radial-gradient(circle at 90% 5%, rgba(45, 125, 246, 0.08), transparent 25%), #f8fafc;
+}
+
+.auth-language-switcher {
+  direction: ltr;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.38rem;
+  border: 1px solid #d7dfeb;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 25px rgba(15, 42, 76, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.auth-language-switcher > i {
+  /* yatay bosluk verir */
+  padding-inline: 0.55rem 0.35rem;
+  color: #2478ef;
+  font-size: 1.15rem;
+}
+
+.language-option {
+  min-width: 42px;
+  min-height: 38px;
+  padding-inline: 0.65rem;
+  border: 0;
+  border-radius: 9px;
+  color: #64748b;
+  background: transparent;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.language-option:hover {
+  color: #1d64d8;
+  background: #edf5ff;
+}
+
+.language-option.active {
+  color: #ffffff;
+  background: #2478ef;
+  box-shadow: 0 5px 14px rgba(36, 120, 239, 0.28);
+}
+
+.language-option:active {
+  transform: scale(0.96);
+}
+
+.language-option:focus-visible {
+  outline: 3px solid rgba(36, 120, 239, 0.28);
+  outline-offset: 2px;
+}
+
+.auth-route-content {
+  width: min(100%, 560px);
+  align-self: center;
+  justify-self: center;
+  padding-block: 2rem 5rem;
+}
+
+/* HAFİF KANBAN HAREKETİ */
+@keyframes kanban-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(0deg);
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .auth-shell {
+    grid-template-columns:
+      minmax(340px, 0.8fr)
+      minmax(440px, 1.2fr);
+  }
+
+  .auth-brand-panel {
+    padding: 2.5rem;
+  }
+
+  .kanban-column {
+    padding: 0.55rem;
+  }
+}
+
+/* MOBİL */
+
+@media (max-width: 780px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .auth-brand-panel {
+    min-height: 430px;
+    align-items: flex-start;
+    padding: 2rem;
+  }
+
+  .brand-content {
+    width: 100%;
+  }
+
+  .brand-message {
+    margin-block-start: 3rem;
+  }
+
+  .brand-message h1 {
+    max-width: 520px;
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+  }
+
+  .mini-kanban {
+    max-width: 520px;
+    margin-block-start: 2.5rem;
+  }
+
+  .auth-form-panel {
+    min-height: 680px;
+    padding: 1.5rem;
+  }
+
+  .auth-route-content {
+    padding-block: 2.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-brand-panel {
+    min-height: auto;
+    padding: 1.5rem;
+  }
+
+  .auth-brand-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+  }
+
+  .brand-message {
+    margin-block-start: 2.5rem;
+  }
+
+  .brand-message p {
+    line-height: 1.6;
+  }
+
+  .mini-kanban {
+    display: none;
+  }
+
+  .auth-form-panel {
+    min-height: 620px;
+  }
+
+  .auth-language-switcher {
+    justify-self: center;
+  }
+}

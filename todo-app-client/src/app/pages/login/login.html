@@ -1,0 +1,161 @@
+<section class="login-card" aria-labelledby="login-title">
+  <!-- Başlık ve açıklama -->
+  <header class="login-header">
+    <h2 id="login-title">
+      {{ language.translate('auth.login.title') }}
+    </h2>
+
+    <p>
+      {{ language.translate('auth.login.subtitle') }}
+    </p>
+  </header>
+
+  <!-- HTML formunu TypeScript'teki loginForm'a bağlar -->
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+    [attr.aria-busy]="isSubmitting()"
+    novalidate
+  >
+    <!-- E-posta alanı -->
+    <div class="form-field">
+      <label for="login-email">
+        {{ language.translate('auth.login.emailLabel') }}
+      </label>
+
+      <div
+        class="input-wrapper"
+        [class.input-invalid]="emailControl.touched && emailControl.invalid"
+      >
+        <i class="pi pi-envelope" aria-hidden="true"></i>
+
+        <input
+          id="login-email"
+          name="email"
+          type="email"
+          formControlName="email"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          dir="ltr"
+          required
+          [placeholder]="language.translate('auth.login.emailPlaceholder')"
+          [attr.aria-invalid]="emailControl.touched && emailControl.invalid"
+          [attr.aria-describedby]="
+            emailControl.touched && emailControl.invalid ? 'login-email-error' : null
+          "
+        />
+      </div>
+
+      @if (emailControl.touched && emailControl.invalid) {
+        <p id="login-email-error" class="field-error" role="alert">
+          @if (emailControl.hasError('required')) {
+            {{ language.translate('auth.login.emailRequired') }}
+          } @else if (emailControl.hasError('email')) {
+            {{ language.translate('auth.login.emailInvalid') }}
+          }
+        </p>
+      }
+    </div>
+
+    <!-- Şifre alanı -->
+    <div class="form-field">
+      <label for="login-password">
+        {{ language.translate('auth.login.passwordLabel') }}
+      </label>
+
+      <div
+        class="input-wrapper"
+        [class.input-invalid]="passwordControl.touched && passwordControl.invalid"
+      >
+        <i class="pi pi-lock" aria-hidden="true"></i>
+
+        <input
+          id="login-password"
+          name="password"
+          formControlName="password"
+          autocomplete="current-password"
+          required
+          [type]="passwordVisible() ? 'text' : 'password'"
+          [placeholder]="language.translate('auth.login.passwordPlaceholder')"
+          [attr.aria-invalid]="passwordControl.touched && passwordControl.invalid"
+          [attr.aria-describedby]="
+            passwordControl.touched && passwordControl.invalid ? 'login-password-error' : null
+          "
+        />
+
+        <!-- Bu düğme formu göndermez; şifre görünürlüğünü değiştirir -->
+        <button
+          type="button"
+          class="password-toggle"
+          aria-controls="login-password"
+          [attr.aria-label]="
+            language.translate(
+              passwordVisible() ? 'auth.login.hidePassword' : 'auth.login.showPassword'
+            )
+          "
+          (click)="togglePasswordVisibility()"
+        >
+          <i [class]="passwordVisible() ? 'pi pi-eye-slash' : 'pi pi-eye'" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      @if (passwordControl.touched && passwordControl.invalid) {
+        <p id="login-password-error" class="field-error" role="alert">
+          @if (passwordControl.hasError('required')) {
+            {{ language.translate('auth.login.passwordRequired') }}
+          } @else if (passwordControl.hasError('minlength')) {
+            {{ language.translate('auth.login.passwordMinLength') }}
+          }
+        </p>
+      }
+    </div>
+
+    <!-- Beni hatırla ve şifre sıfırlama bağlantısı -->
+    <div class="login-options">
+      <label class="remember-me" for="login-remember">
+        <input id="login-remember" name="rememberMe" type="checkbox" formControlName="rememberMe" />
+
+        <span>
+          {{ language.translate('auth.login.rememberMe') }}
+        </span>
+      </label>
+
+      <a routerLink="/forgot-password" class="auth-link">
+        {{ language.translate('auth.login.forgotPassword') }}
+      </a>
+    </div>
+
+    <!-- Backend bağlantısında hata anahtarını burada göstereceğiz -->
+    @if (loginError(); as errorKey) {
+      <p class="login-error" role="alert">
+        {{ language.translate(errorKey) }}
+      </p>
+    }
+
+    <!-- Form gönderme düğmesi -->
+    <button type="submit" class="login-submit" [disabled]="isSubmitting()">
+      @if (isSubmitting()) {
+        <i class="pi pi-spin pi-spinner" aria-hidden="true"></i>
+      }
+
+      <span>
+        {{ language.translate(isSubmitting() ? 'auth.login.submitting' : 'auth.login.submit') }}
+      </span>
+    </button>
+  </form>
+
+  <div class="login-divider">
+    <span>
+      {{ language.translate('auth.login.separator') }}
+    </span>
+  </div>
+
+  <p class="register-prompt">
+    {{ language.translate('auth.login.noAccount') }}
+
+    <a routerLink="/register" class="auth-link">
+      {{ language.translate('auth.login.register') }}
+    </a>
+  </p>
+</section>

@@ -1,0 +1,124 @@
+<div class="auth-shell">
+  <!-- Sol marka ve tanıtım paneli -->
+  <aside class="auth-brand-panel">
+    <!-- Arka plan süsleri -->
+    <div class="brand-decoration brand-decoration-large" aria-hidden="true"></div>
+
+    <div class="brand-decoration brand-decoration-small" aria-hidden="true"></div>
+
+    <div class="brand-content">
+      <!-- Uygulama logosu -->
+      <div class="auth-brand">
+        <div class="auth-brand-logo">
+          <i class="pi pi-compass" aria-hidden="true"></i>
+        </div>
+
+        <span class="auth-brand-name"> your plan </span>
+      </div>
+
+      <!-- Marka tanıtım yazıları -->
+      <div class="brand-message">
+        <h1>
+          {{ language.translate('auth.brandSlogan') }}
+        </h1>
+
+        <span class="brand-accent" aria-hidden="true"></span>
+
+        <p>
+          {{ language.translate('auth.brandDescription') }}
+        </p>
+      </div>
+
+      
+
+      <!-- Dekoratif mini Kanban panosu -->
+      <div class="mini-kanban" aria-hidden="true">
+        <section class="kanban-column">
+          <h2>
+            {{ language.translate('auth.kanban.todo') }}
+          </h2>
+
+          <div class="kanban-card">
+            <span class="kanban-status"></span>
+            <span class="kanban-line"></span>
+          </div>
+
+          <div class="kanban-card">
+            <span class="kanban-status"></span>
+            <span class="kanban-line kanban-line-short"></span>
+          </div>
+
+          <div class="kanban-card">
+            <span class="kanban-status"></span>
+            <span class="kanban-line"></span>
+          </div>
+        </section>
+
+        <section class="kanban-column kanban-column-active">
+          <h2>
+            {{ language.translate('auth.kanban.inProgress') }}
+          </h2>
+
+          <div class="kanban-card">
+            <span class="kanban-status"></span>
+            <span class="kanban-line"></span>
+          </div>
+
+          <div class="kanban-card">
+            <span class="kanban-status"></span>
+            <span class="kanban-line kanban-line-short"></span>
+          </div>
+        </section>
+
+        <section class="kanban-column">
+          <h2>
+            {{ language.translate('auth.kanban.completed') }}
+          </h2>
+
+          <div class="kanban-card kanban-card-completed">
+            <span class="kanban-status">
+              <i class="pi pi-check"></i>
+            </span>
+            <span class="kanban-line"></span>
+          </div>
+
+          <div class="kanban-card kanban-card-completed">
+            <span class="kanban-status">
+              <i class="pi pi-check"></i>
+            </span>
+            <span class="kanban-line kanban-line-short"></span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sağ giriş alanı -->
+  <main class="auth-form-panel">
+    <!-- Dil değiştirme düğmeleri -->
+    <div
+      class="auth-language-switcher"
+      role="group"
+      [attr.aria-label]="language.translate('auth.languageLabel')"
+    >
+      <i class="pi pi-globe" aria-hidden="true"></i>
+
+      @for (option of languageOptions; track option.code) {
+        <button
+          type="button"
+          class="language-option"
+          [class.active]="language.currentLanguage() === option.code"
+          [attr.aria-pressed]="language.currentLanguage() === option.code"
+          (click)="setLanguage(option.code)"
+        >
+          {{ option.label }}
+        </button>
+      }
+    </div>
+
+    <!-- Login, Register veya Forgot Password burada açılacak -->
+    <div class="auth-route-content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

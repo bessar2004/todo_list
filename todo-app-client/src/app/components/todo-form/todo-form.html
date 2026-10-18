@@ -1,0 +1,145 @@
+<div class="new-task-action">
+  <p-button
+    [label]="language.translate('todoForm.newTask')"
+    icon="pi pi-plus"
+    styleClass="new-task-button"
+    (click)="openDialog()"
+  >
+  </p-button>
+</div>
+
+<p-dialog
+  [header]="language.translate('todoForm.dialogTitle')"
+  [(visible)]="visible"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: 'min(460px, 92vw)' }"
+  styleClass="task-dialog"
+>
+  <form [formGroup]="todoForm" (ngSubmit)="submit()" class="task-form">
+    <div class="form-field">
+      <label for="title">
+        {{ language.translate('todoForm.title') }}
+        <span class="required">*</span>
+      </label>
+
+      <input
+        id="title"
+        type="text"
+        pInputText
+        formControlName="title"
+        maxlength="100"
+        [placeholder]="language.translate('todoForm.titlePlaceholder')"
+      />
+
+      @if (todoForm.controls.title.touched && todoForm.controls.title.hasError('required')) {
+        <small class="validation-error">
+          {{ language.translate('todoForm.titleRequired') }}
+        </small>
+      }
+
+      @if (todoForm.controls.title.touched && todoForm.controls.title.hasError('minlength')) {
+        <small class="validation-error">
+          {{ language.translate('todoForm.titleMinLength') }}
+        </small>
+      }
+
+      @if (todoForm.controls.title.touched && todoForm.controls.title.hasError('maxlength')) {
+        <small class="validation-error">
+          {{ language.translate('todoForm.titleMaxLength') }}
+        </small>
+      }
+
+      <small class="helper-text">
+        {{ language.translate('todoForm.titleHelper') }}
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="description">
+        {{ language.translate('todoForm.description') }}
+      </label>
+
+      <textarea
+        id="description"
+        pTextarea
+        formControlName="description"
+        maxlength="500"
+        rows="4"
+        [autoResize]="true"
+        [placeholder]="language.translate('todoForm.descriptionPlaceholder')"
+      ></textarea>
+
+      @if (
+        todoForm.controls.description.touched && todoForm.controls.description.hasError('maxlength')
+      ) {
+        <small class="validation-error">
+          {{ language.translate('todoForm.descriptionMaxLength') }}
+        </small>
+      }
+
+      <small class="helper-text">
+        {{ language.translate('todoForm.descriptionHelper') }}
+      </small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="priority">
+          {{ language.translate('todoForm.priority') }}
+        </label>
+
+        <p-select
+          inputId="priority"
+          formControlName="priority"
+          [options]="priorities"
+          optionLabel="label"
+          optionValue="value"
+          appendTo="body"
+          panelStyleClass="task-select-panel"
+          [placeholder]="language.translate('todoForm.priorityPlaceholder')"
+        >
+        </p-select>
+      </div>
+
+      <div class="form-field">
+        <label for="dueDate">
+          {{ language.translate('todoForm.dueDate') }}
+        </label>
+
+        <p-date-picker
+          inputId="dueDate"
+          formControlName="dueDate"
+          [dateFormat]="language.datePickerFormat"
+          [showIcon]="true"
+          [showButtonBar]="true"
+          appendTo="body"
+          panelStyleClass="task-datepicker-panel"
+          [placeholder]="language.translate('todoForm.dueDatePlaceholder')"
+        >
+        </p-date-picker>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <p-button
+        type="button"
+        [label]="language.translate('todoForm.cancel')"
+        severity="secondary"
+        variant="outlined"
+        (onClick)="closeDialog()"
+      >
+      </p-button>
+
+      <p-button
+        type="submit"
+        [label]="language.translate('todoForm.create')"
+        icon="pi pi-plus"
+        styleClass="create-task-button"
+        [loading]="isSubmitting"
+      >
+      </p-button>
+    </div>
+  </form>
+</p-dialog>
