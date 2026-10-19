@@ -1,17 +1,53 @@
 # Your Plan
 
-Angular 21 ve ASP.NET Core 10 ile geliştirilmiş kişisel görev uygulaması. Kayıt/giriş, kullanıcıya özel görevler, Kanban panosu, takvim, raporlar ve TR/EN/AR arayüzü içerir.
+[![CI](https://github.com/bessar2004/todo_list/actions/workflows/ci.yml/badge.svg)](https://github.com/bessar2004/todo_list/actions/workflows/ci.yml)
+[![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-blue.svg)](LICENSE)
 
-## Yerel gereksinimler
+**Your Plan**, görevlerini Kanban panosunda düzenlemeni, takvimde görmeni ve raporlarla ilerlemeni takip etmeni sağlayan kişisel bir görev yönetim uygulamasıdır. Her kullanıcı yalnızca kendi görevlerini görür. Arayüz Türkçe, İngilizce ve Arapça olarak kullanılabilir.
+
+*Your Plan is a personal task manager with a Kanban board, calendar and reports. Built with Angular and ASP.NET Core; the UI is available in Turkish, English and Arabic.*
+
+![Your Plan giriş ekranı](docs/screenshots/login.png)
+
+## Ne işe yarar?
+
+Bir hesap oluşturup giriş yaparsın, görevlerini ekler, önceliklerini belirler ve **Yapılacak → Devam Ediyor → Tamamlandı** sütunları arasında sürükleyerek ilerletirsin. Son tarihi olan görevler takvimde görünür, raporlar sayfası da durum ve öncelik dağılımını grafiklerle gösterir.
+
+## Özellikler
+
+- **Kanban panosu:** Görevleri sürükle-bırak ile sütunlar arasında taşı. Durum değişikliği veritabanına kaydedilir.
+- **Görev yönetimi:** Başlık, açıklama, öncelik (düşük / orta / yüksek) ve son tarih ile görev ekle, düzenle, sil. Görev tamamlanınca tamamlanma zamanı kaydedilir.
+- **Arama ve filtre:** Görevleri metne, duruma ve önceliğe göre filtrele.
+- **Takvim:** Son tarihi olan görevleri takvim üzerinde gör.
+- **Raporlar:** Durum ve öncelik dağılımını grafiklerle incele.
+- **Hesap sistemi:** Kayıt, giriş, "şifremi unuttum" (e-posta ile sıfırlama), profil adını güncelleme ve şifre değiştirme.
+- **Kullanıcıya özel veri:** Görevler hesaba bağlıdır, başka bir kullanıcının görevine erişilemez.
+- **Çoklu dil ve tema:** Türkçe, İngilizce, Arapça; açık ve koyu tema.
+- **Güvenlik:** JWT ile kimlik doğrulama, şifre değişince eski oturumların geçersiz olması, hesap kilitleme ve giriş/kayıt/şifre işlemlerinde hız sınırı.
+
+## Kullanılan teknolojiler
+
+| Katman | Teknoloji |
+| --- | --- |
+| Arayüz | Angular 21, PrimeNG, Chart.js, Angular CDK (sürükle-bırak) |
+| API | ASP.NET Core 10 (Web API), Identity, JWT, Swagger |
+| Veri | Entity Framework Core, SQL Server |
+| E-posta | MailKit (SMTP) |
+| Test | xUnit (API), Vitest (arayüz) |
+| CI | GitHub Actions |
+
+## Hızlı başlangıç
+
+### Gereksinimler
 
 - .NET SDK 10
 - Node.js 22 ve npm
 - SQL Server LocalDB (Windows)
 - EF Core komut aracı (`dotnet ef`)
 
-## İlk kurulum
+### Kurulum
 
-Komutları bu klasörde PowerShell ile çalıştır:
+Komutları proje klasöründe PowerShell ile çalıştır:
 
 ```powershell
 if (-not (Test-Path appsettings.Development.json)) {
@@ -25,7 +61,7 @@ npm.cmd ci --prefix todo-app-client
 
 `appsettings.Development.json` ve kullanıcı sırları Git'e eklenmez. JWT anahtarını README'ye veya kaynak koda yazma. Komut, var olan yerel ayar dosyanın üzerine yazmaz.
 
-## Çalıştırma
+### Çalıştırma
 
 İki ayrı terminal aç:
 
@@ -38,8 +74,24 @@ Set-Location todo-app-client
 npm.cmd start
 ```
 
-- Angular: http://localhost:4200/login
+- Uygulama: http://localhost:4200/login
 - API / Swagger: http://localhost:5072/swagger
+
+Giriş ekranından **Kayıt Ol** ile bir hesap oluşturup kullanmaya başlayabilirsin. Şifre en az 15 karakter olmalıdır.
+
+## Proje yapısı
+
+```text
+.
+├── Controllers/            API uç noktaları (auth, me, todo)
+├── Services/               İş mantığı, JWT, e-posta gönderimi
+├── Repositories/           Veri erişimi
+├── Dtos/  Models/  Data/   Veri modelleri ve EF Core bağlamı
+├── Migrations/             Veritabanı şema geçmişi
+├── TodoApp.Api.Tests/      API birim testleri (xUnit)
+├── todo-app-client/        Angular arayüzü
+└── docs/screenshots/       README görselleri
+```
 
 ## Şifre sıfırlama e-postası
 
@@ -64,6 +116,16 @@ Ayarlar sayfasında ad–soyad güncellenebilir; e-posta alanı salt okunurdur. 
 
 Şifre değişikliği/sıfırlama, Identity güvenlik damgasını yeniler. Her korumalı API isteğinde JWT'deki oturum sürümü bu damgayla karşılaştırılır; eski JWT'ler reddedilir. Şifre değişince kullanıcı yeniden giriş yapar. Bu kontrol eklenmeden önce alınmış tokenlar da bir kez yeniden giriş gerektirir. Veritabanı şema değişikliği gerekmez.
 
+## Test komutları
+
+```powershell
+dotnet test TodoApp.Api.Tests/TodoApp.Api.Tests.csproj
+npm.cmd test --prefix todo-app-client -- --watch=false
+npm.cmd run build --prefix todo-app-client
+```
+
+Testler API ve istemci tarafındaki birim testleri kapsar; kayıt/giriş, görev işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da elle denemeni öneririm.
+
 ## Yayına alma (production)
 
 Frontend `/api` adresini kullanır; bu yüzden SPA ve API aynı alan adı altında, bir reverse proxy (IIS, nginx vb.) arkasında yayınlanmalıdır. Production'da `appsettings.Development.json` kullanılmaz; ayarlar ortam değişkenleri veya gizli yönetim sistemiyle verilir (`:` yerine `__` kullan):
@@ -81,16 +143,6 @@ Frontend `/api` adresini kullanır; bu yüzden SPA ve API aynı alan adı altın
 Veritabanı şemasını yayın öncesi `dotnet ef database update` veya `dotnet ef migrations script --idempotent` ile uygula. Frontend için `npm run build` çıktısı `todo-app-client/dist/` altında oluşur.
 
 GitHub Actions (`.github/workflows/ci.yml`) her push ve pull request'te backend/frontend testlerini ve frontend build'ini çalıştırır.
-
-## Test komutları
-
-```powershell
-dotnet test TodoApp.Api.Tests/TodoApp.Api.Tests.csproj
-npm.cmd test --prefix todo-app-client -- --watch=false
-npm.cmd run build --prefix todo-app-client
-```
-
-Testler API ve istemci tarafındaki birim testleri kapsar; kayıt/giriş, görev işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da elle denemeni öneririm.
 
 ## Lisans
 
