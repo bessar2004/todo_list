@@ -306,6 +306,7 @@ responsive: true,
       y: {
         beginAtZero: true,
         ticks: {
+          precision: 0,
           color: textColor
         },
         grid: {

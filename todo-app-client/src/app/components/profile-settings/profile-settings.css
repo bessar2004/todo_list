@@ -1,0 +1,29 @@
+:host { display: grid; gap: 16px; min-width: 0; --card: #fff; --ink: #172033; --muted: #64748b; --line: #dbe4ef; --field: #fff; --soft: #eff6ff; --blue: #2563eb; --error: #b91c1c; --success: #15803d; }
+:host-context(.app-dark) { --card: #111827; --ink: #f8fafc; --muted: #94a3b8; --line: #334155; --field: #0f172a; --soft: #1e3a5f; --blue: #93c5fd; --error: #fca5a5; --success: #86efac; }
+.account-card { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: var(--card); }
+.card-heading { display: flex; align-items: center; gap: 13px; margin-bottom: 22px; }
+.card-heading > i { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 11px; background: var(--soft); color: var(--blue); }
+h2 { margin: 0; font-size: .95rem; }
+.card-heading p, .hint { margin: 5px 0 0; font-size: .8rem; line-height: 1.6; color: var(--muted); }
+.profile-preview { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; overflow-wrap: anywhere; }
+.profile-preview > div:last-child { display: grid; gap: 4px; min-width: 0; }
+.profile-preview span { color: var(--muted); font-size: .8rem; }
+.profile-avatar { display: grid; place-items: center; width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%; background: #2563eb; color: white; font-weight: 700; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 18px; }
+.field { display: grid; gap: 7px; min-width: 0; }
+label { font-size: .84rem; font-weight: 600; }
+input { box-sizing: border-box; min-width: 0; width: 100%; min-height: 44px; padding: 10px 12px; font: inherit; font-size: .9rem; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 8px; }
+input[readonly] { color: var(--muted); background: var(--soft); }
+input[aria-invalid="true"] { border-color: var(--error); }
+input:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.form-actions { display: flex; justify-content: flex-end; }
+button { min-height: 44px; padding: 10px 18px; border: 0; border-radius: 8px; font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; color: #fff; background: #2563eb; }
+button:hover:not(:disabled) { background: #1d4ed8; }
+button:disabled, fieldset:disabled button { opacity: .55; cursor: not-allowed; }
+.visibility-toggle { justify-self: start; display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--blue); padding-inline: 0; }
+.visibility-toggle:hover:not(:disabled) { background: transparent; text-decoration: underline; }
+.notice { margin: 0; padding: 12px; border-radius: 8px; background: var(--soft); color: var(--ink); font-size: .8rem; line-height: 1.7; }
+.error, .success { margin: 5px 0 0; font-size: .82rem; line-height: 1.6; overflow-wrap: anywhere; }
+.error { color: var(--error); }
+.success { color: var(--success); margin-top: 12px; }
+@media (max-width: 650px) { .account-card { padding: 18px; } .form-actions button { width: 100%; } }

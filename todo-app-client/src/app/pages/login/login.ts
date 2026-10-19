@@ -1,7 +1,7 @@
 import { Component,signal } from '@angular/core';
 import{FormControl, FormGroup, Validators,ReactiveFormsModule} from '@angular/forms';
 
-import {RouterLink} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth';
 import {
   LanguageService
@@ -37,8 +37,7 @@ readonly loginForm = new FormGroup({
       {
         nonNullable: true,
         validators: [
-          Validators.required,
-          Validators.minLength(6)
+          Validators.required
         ]
       }
     ),
@@ -66,7 +65,8 @@ readonly passwordVisible = signal(false);
  constructor(
   public readonly language: LanguageService,
   private readonly auth: AuthService,
-  private readonly router: Router
+  private readonly router: Router,
+  public readonly route: ActivatedRoute
 ) {}
 // form alanlarına kolay erişim için getter metotları
   get emailControl(): FormControl<string> {

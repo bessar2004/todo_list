@@ -27,6 +27,7 @@ public sealed class JwtTokenService
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(AccountTokenEvents.SessionVersionClaim, AccountTokenEvents.GetSessionVersion(user)),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         // JWT token oluşturur ve kullanıcıya geri döndürür. Token, kullanıcının kimliğini doğrulamak ve yetkilendirmek için kullanılır.

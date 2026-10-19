@@ -34,7 +34,7 @@ export class Sidebar {
 
 constructor(
   public language: LanguageService,
-    private readonly auth: AuthService,
+    public readonly auth: AuthService,
 
     private readonly router: Router
 

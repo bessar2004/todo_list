@@ -1,0 +1,84 @@
+<section class="account-card" aria-labelledby="profile-heading">
+  <header class="card-heading">
+    <i class="pi pi-user" aria-hidden="true"></i>
+    <div>
+      <h2 id="profile-heading">{{ language.translate('profile.title') }}</h2>
+      <p>{{ language.translate('profile.description') }}</p>
+    </div>
+  </header>
+
+  @if (auth.currentUser(); as user) {
+    <div class="profile-preview">
+      <div class="profile-avatar" aria-hidden="true">{{ auth.avatarInitial() }}</div>
+      <div><strong>{{ user.fullName }}</strong><span dir="auto">{{ user.email }}</span></div>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" [attr.aria-busy]="savingProfile()" novalidate>
+      <fieldset [disabled]="busy()">
+        <div class="field">
+          <label for="profile-name">{{ language.translate('auth.register.nameLabel') }}</label>
+          <input id="profile-name" name="fullName" formControlName="fullName" autocomplete="name" required maxlength="100"
+            [attr.aria-invalid]="profileForm.controls.fullName.touched && profileForm.controls.fullName.invalid"
+            [attr.aria-describedby]="profileForm.controls.fullName.touched && profileForm.controls.fullName.invalid ? 'profile-name-error' : null" />
+          @if (profileForm.controls.fullName.touched && profileForm.controls.fullName.invalid) {
+            <p class="error" id="profile-name-error" role="alert">{{ language.translate(
+              profileForm.controls.fullName.hasError('required') ? 'auth.register.nameRequired' : 'auth.register.nameMaxLength', { count: 100 }) }}</p>
+          }
+        </div>
+        <div class="field">
+          <label for="profile-email">{{ language.translate('auth.login.emailLabel') }}</label>
+          <input id="profile-email" type="email" [value]="user.email" readonly dir="ltr" aria-describedby="profile-email-help" />
+          <p id="profile-email-help" class="hint">{{ language.translate('profile.emailReadOnly') }}</p>
+        </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="profileForm.controls.fullName.value.trim() === user.fullName">
+            {{ language.translate(savingProfile() ? 'profile.saving' : 'profile.save') }}
+          </button>
+        </div>
+      </fieldset>
+    </form>
+  } @else {
+    <p class="hint">{{ language.translate('profile.unavailable') }}</p>
+    <button type="button" (click)="reloadProfile()" [disabled]="busy()">{{ language.translate('profile.reload') }}</button>
+  }
+  @if (profileError(); as error) { <p class="error" role="alert">{{ language.translate(error) }}</p> }
+  @if (profileSaved()) { <p class="success" role="status">{{ language.translate('profile.saved') }}</p> }
+</section>
+
+<section class="account-card" aria-labelledby="password-heading">
+  <header class="card-heading">
+    <i class="pi pi-lock" aria-hidden="true"></i>
+    <div>
+      <h2 id="password-heading">{{ language.translate('profile.passwordTitle') }}</h2>
+      <p>{{ language.translate('profile.passwordDescription') }}</p>
+    </div>
+  </header>
+  <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" [attr.aria-busy]="savingPassword()" novalidate>
+    <fieldset [disabled]="busy() || !auth.currentUser()">
+      <!-- Şifre yöneticileri mevcut hesabı tanıyabilsin; e-posta sunucuya gönderilmez. -->
+      <input type="text" name="username" autocomplete="username" [value]="auth.currentUser()?.email ?? ''" hidden readonly />
+      @for (field of passwordFields; track field.name) {
+        <div class="field">
+          <label [for]="'profile-' + field.name">{{ language.translate(field.label) }}</label>
+          <input [id]="'profile-' + field.name" [name]="field.name" [formControlName]="field.name"
+            [type]="passwordsVisible() ? 'text' : 'password'" [autocomplete]="field.autocomplete" required
+            [attr.aria-invalid]="!!passwordFieldError(field.name)"
+            [attr.aria-describedby]="passwordFieldError(field.name) ? 'profile-' + field.name + '-error' : null" />
+          @if (passwordFieldError(field.name); as error) {
+            <p class="error" [id]="'profile-' + field.name + '-error'" role="alert">{{ language.translate(error) }}</p>
+          }
+        </div>
+      }
+      <button type="button" class="visibility-toggle" (click)="passwordsVisible.set(!passwordsVisible())"
+        [attr.aria-pressed]="passwordsVisible()" aria-controls="profile-currentPassword profile-newPassword profile-confirmPassword">
+        <i [class]="passwordsVisible() ? 'pi pi-eye-slash' : 'pi pi-eye'" aria-hidden="true"></i>
+        {{ language.translate(passwordsVisible() ? 'profile.hidePasswords' : 'profile.showPasswords') }}
+      </button>
+      <p class="notice">{{ language.translate('profile.passwordNotice') }}</p>
+      <div class="form-actions">
+        <button type="submit">{{ language.translate(savingPassword() ? 'auth.reset.submitting' : 'auth.reset.submit') }}</button>
+      </div>
+    </fieldset>
+    @if (passwordError(); as error) { <p class="error" role="alert">{{ language.translate(error) }}</p> }
+  </form>
+</section>

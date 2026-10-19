@@ -42,6 +42,7 @@ import {
 import {
   Preferences
 } from '../../services/preferences';
+import { ProfileSettings } from '../../components/profile-settings/profile-settings';
 
 
 
@@ -51,7 +52,7 @@ import {
     ButtonModule,
     SelectModule,
     ToggleSwitchModule,
-    ToastModule],
+    ToastModule, ProfileSettings],
      providers: [
     MessageService
   ],

@@ -179,39 +179,6 @@
       </div>
     </section>
 
-    <!-- PROFİL -->
-
-    <section class="settings-card">
-      <div class="settings-card-header">
-        <div class="settings-icon">
-          <i class="pi pi-user"></i>
-        </div>
-
-        <div>
-          <h2>{{ language.translate('profile.title') }}</h2>
-          <p>{{ language.translate('profile.description') }}</p>
-        </div>
-      </div>
-
-      <div class="profile-preview">
-        <div class="profile-avatar">K</div>
-
-        <div>
-          <strong>{{ language.translate('user.name') }}</strong>
-
-          <span> user@example.com </span>
-        </div>
-      </div>
-
-      <div class="coming-soon">
-        <i class="pi pi-info-circle"> </i>
-
-        <span>
-          {{ language.translate('profile.comingSoon') }}
-        </span>
-      </div>
-    </section>
-
     <!-- SAVE -->
 
     <div class="settings-actions">
@@ -223,5 +190,6 @@
       >
       </p-button>
     </div>
+    <app-profile-settings />
   </div>
 </div>

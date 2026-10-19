@@ -265,6 +265,8 @@
 }
 
 .chart-card {
+  min-width: 0;
+  overflow: hidden;
   padding: 20px;
 
   border: 1px solid #e8edf3;
@@ -298,7 +300,9 @@
 
 .chart-wrapper {
   position: relative;
+  min-width: 0;
   height: 280px;
+  overflow: hidden;
 }
 
 .chart-wrapper p-chart {
@@ -335,11 +339,11 @@
 
   padding: 16px;
 
-  border-right: 1px solid #edf1f5;
+  border-inline-end: 1px solid #edf1f5;
 }
 
 .report-summary > div:last-child {
-  border-right: 0;
+  border-inline-end: 0;
 }
 
 .report-summary > div > div {
@@ -426,7 +430,7 @@
   .report-summary > div {
     justify-content: flex-start;
 
-    border-right: 0;
+    border-inline-end: 0;
     border-bottom: 1px solid #edf1f5;
   }
 

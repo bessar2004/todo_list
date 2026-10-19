@@ -164,7 +164,8 @@
         </div>
 
         <div class="chart-wrapper doughnut-wrapper">
-          <p-chart type="doughnut" [data]="statusChartData" [options]="statusChartOptions">
+          <p-chart type="doughnut" [data]="statusChartData" [options]="statusChartOptions"
+            [ariaLabel]="language.translate('reports.statusChartTitle')">
           </p-chart>
         </div>
       </article>
@@ -185,7 +186,8 @@
         </div>
 
         <div class="chart-wrapper">
-          <p-chart type="bar" [data]="priorityChartData" [options]="priorityChartOptions">
+          <p-chart type="bar" [data]="priorityChartData" [options]="priorityChartOptions"
+            [ariaLabel]="language.translate('reports.priorityChartTitle')">
           </p-chart>
         </div>
       </article>

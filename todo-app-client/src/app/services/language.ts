@@ -1,4 +1,6 @@
 import { Injectable, signal } from '@angular/core';
+import { PrimeNG } from 'primeng/config';
+import { getPrimeNgTranslation } from './primeng-translations';
 
 export type AppLanguage = 'tr' | 'en' | 'ar';
 
@@ -69,7 +71,7 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'auth.languageLabel': 'Dil seçimi',
     'auth.brandSlogan': 'Planlarınla daha fazlasını yap.',
     'auth.brandDescription':
-      'İşlerini organize et, ekibinle paylaş ve hedeflerine daha hızlı ulaş.',
+      'Görevlerini düzenle, ilerlemeni takip et ve hedeflerine daha hızlı ulaş.',
 
     'auth.kanban.todo': 'Yapılacak',
     'auth.kanban.inProgress': 'Devam Ediyor',
@@ -86,7 +88,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'auth.login.passwordLabel': 'Şifre',
     'auth.login.passwordPlaceholder': 'Şifren',
     'auth.login.passwordRequired': 'Şifre zorunludur.',
-    'auth.login.passwordMinLength': 'Şifre en az 6 karakter olmalıdır.',
 
     'auth.login.showPassword': 'Şifreyi göster',
     'auth.login.hidePassword': 'Şifreyi gizle',
@@ -185,6 +186,24 @@ const translations: Record<AppLanguage, Record<string, string>> = {
 
     'profile.title': 'Profil',
     'profile.description': 'Hesap bilgilerin.',
+    'profile.emailReadOnly': 'E-posta adresi şimdilik değiştirilemez.',
+    'profile.save': 'Profili kaydet',
+    'profile.saving': 'Kaydediliyor...',
+    'profile.saved': 'Profilin güncellendi.',
+    'profile.saveError': 'Profil kaydedilemedi. Lütfen tekrar dene.',
+    'profile.passwordTitle': 'Şifre değiştir',
+    'profile.passwordDescription': 'Mevcut şifreni kullanarak yeni bir şifre belirle.',
+    'profile.currentPassword': 'Mevcut şifre',
+    'profile.passwordNotice': 'Yeni şifren en az 15 karakter olmalı. Değişiklikten sonra tüm oturumlarında yeniden giriş yapman gerekecek.',
+    'profile.wrongPassword': 'Mevcut şifren yanlış. Kontrol edip tekrar dene.',
+    'profile.passwordError': 'Şifre değiştirilemedi. Lütfen tekrar dene.',
+    'profile.tooManyAttempts': 'Çok fazla deneme yaptın. Bir dakika sonra tekrar dene.',
+    'profile.passwordChanged': 'Şifren değiştirildi. Yeni şifrenle yeniden giriş yap.',
+    'profile.unavailable': 'Hesap bilgileri henüz yüklenmedi.',
+    'profile.reload': 'Bilgileri yeniden yükle',
+    'profile.loadError': 'Hesap bilgileri yüklenemedi. Lütfen tekrar dene.',
+    'profile.showPasswords': 'Şifreleri göster',
+    'profile.hidePasswords': 'Şifreleri gizle',
 
     'settings.save': 'Ayarları Kaydet',
     'settings.saved': 'Kaydedildi',
@@ -196,9 +215,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'nav.settings': 'Ayarlar',
     'user.name': 'Kullanıcı',
     'menu.close': 'Menüyü kapat',
-
-    'profile.comingSoon':
-      'Profil düzenleme, şifre değiştirme ve hesap işlemleri Login/JWT aşamasında aktif olacak.',
 
     'todoForm.newTask': 'Yeni Görev',
     'todoForm.dialogTitle': 'Yeni Görev Oluştur',
@@ -328,7 +344,7 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'auth.languageLabel': 'Language selection',
     'auth.brandSlogan': 'Do more with your plans.',
     'auth.brandDescription':
-      'Organize your work, share it with your team, and reach your goals faster.',
+      'Organize your tasks, track your progress, and reach your goals faster.',
 
     'auth.kanban.todo': 'To Do',
     'auth.kanban.inProgress': 'In Progress',
@@ -344,7 +360,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'auth.login.passwordLabel': 'Password',
     'auth.login.passwordPlaceholder': 'Your password',
     'auth.login.passwordRequired': 'Password is required.',
-    'auth.login.passwordMinLength': 'Password must contain at least 6 characters.',
 
     'auth.login.showPassword': 'Show password',
     'auth.login.hidePassword': 'Hide password',
@@ -455,6 +470,24 @@ const translations: Record<AppLanguage, Record<string, string>> = {
 
     'profile.title': 'Profile',
     'profile.description': 'Your account information.',
+    'profile.emailReadOnly': 'Your email address cannot be changed yet.',
+    'profile.save': 'Save profile',
+    'profile.saving': 'Saving...',
+    'profile.saved': 'Your profile has been updated.',
+    'profile.saveError': 'Your profile could not be saved. Please try again.',
+    'profile.passwordTitle': 'Change password',
+    'profile.passwordDescription': 'Use your current password to set a new one.',
+    'profile.currentPassword': 'Current password',
+    'profile.passwordNotice': 'Your new password must be at least 15 characters. You will need to sign in again on all your sessions after changing it.',
+    'profile.wrongPassword': 'Your current password is incorrect. Please check and try again.',
+    'profile.passwordError': 'Your password could not be changed. Please try again.',
+    'profile.tooManyAttempts': 'Too many attempts. Please try again in one minute.',
+    'profile.passwordChanged': 'Your password has been changed. Sign in again with your new password.',
+    'profile.unavailable': 'Your account information has not loaded yet.',
+    'profile.reload': 'Reload account details',
+    'profile.loadError': 'Your account details could not be loaded. Please try again.',
+    'profile.showPasswords': 'Show passwords',
+    'profile.hidePasswords': 'Hide passwords',
 
     'settings.save': 'Save Settings',
     'settings.saved': 'Saved',
@@ -466,9 +499,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'nav.settings': 'Settings',
     'user.name': 'User',
     'menu.close': 'Close menu',
-
-    'profile.comingSoon':
-      'Profile editing, password changes and account operations will be available during the Login/JWT stage.',
 
     'todoForm.newTask': 'New Task',
     'todoForm.dialogTitle': 'Create New Task',
@@ -583,7 +613,7 @@ const translations: Record<AppLanguage, Record<string, string>> = {
 
     'auth.languageLabel': 'اختيار اللغة',
     'auth.brandSlogan': 'خطّط أكثر، وأنجز أكثر.',
-    'auth.brandDescription': 'نظّم أعمالك، وشاركها مع فريقك، وحقق أهدافك بشكل أسرع.',
+    'auth.brandDescription': 'نظّم مهامك، وتابع تقدّمك، وحقّق أهدافك بسرعة أكبر.',
 
     'auth.kanban.todo': 'للقيام',
     'auth.kanban.inProgress': 'قيد التنفيذ',
@@ -600,7 +630,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'auth.login.passwordLabel': 'كلمة المرور',
     'auth.login.passwordPlaceholder': 'أدخل كلمة المرور',
     'auth.login.passwordRequired': 'كلمة المرور مطلوبة.',
-    'auth.login.passwordMinLength': 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.',
 
     'auth.login.showPassword': 'إظهار كلمة المرور',
     'auth.login.hidePassword': 'إخفاء كلمة المرور',
@@ -716,6 +745,24 @@ const translations: Record<AppLanguage, Record<string, string>> = {
 
     'profile.title': 'الملف الشخصي',
     'profile.description': 'معلومات حسابك.',
+    'profile.emailReadOnly': 'لا يمكن تغيير عنوان البريد الإلكتروني حاليًا.',
+    'profile.save': 'حفظ الملف الشخصي',
+    'profile.saving': 'جارٍ الحفظ...',
+    'profile.saved': 'تم تحديث ملفك الشخصي.',
+    'profile.saveError': 'تعذر حفظ الملف الشخصي. يرجى المحاولة مرة أخرى.',
+    'profile.passwordTitle': 'تغيير كلمة المرور',
+    'profile.passwordDescription': 'استخدم كلمة مرورك الحالية لتعيين كلمة مرور جديدة.',
+    'profile.currentPassword': 'كلمة المرور الحالية',
+    'profile.passwordNotice': 'يجب أن تتكون كلمة المرور الجديدة من 15 حرفًا على الأقل. بعد تغييرها، ستحتاج إلى تسجيل الدخول من جديد في جميع جلساتك.',
+    'profile.wrongPassword': 'كلمة المرور الحالية غير صحيحة. تحقق منها وحاول مرة أخرى.',
+    'profile.passwordError': 'تعذر تغيير كلمة المرور. يرجى المحاولة مرة أخرى.',
+    'profile.tooManyAttempts': 'محاولات كثيرة جدًا. يرجى المحاولة مجددًا بعد دقيقة.',
+    'profile.passwordChanged': 'تم تغيير كلمة المرور. سجّل الدخول مجددًا باستخدام كلمة المرور الجديدة.',
+    'profile.unavailable': 'لم يتم تحميل معلومات الحساب بعد.',
+    'profile.reload': 'إعادة تحميل معلومات الحساب',
+    'profile.loadError': 'تعذر تحميل معلومات الحساب. يرجى المحاولة مرة أخرى.',
+    'profile.showPasswords': 'إظهار كلمات المرور',
+    'profile.hidePasswords': 'إخفاء كلمات المرور',
 
     'settings.save': 'حفظ الإعدادات',
     'settings.saved': 'تم الحفظ',
@@ -727,9 +774,6 @@ const translations: Record<AppLanguage, Record<string, string>> = {
     'nav.settings': 'الإعدادات',
     'user.name': 'المستخدم',
     'menu.close': 'إغلاق القائمة',
-
-    'profile.comingSoon':
-      'سيتم تفعيل تعديل الملف الشخصي وتغيير كلمة المرور وعمليات الحساب في مرحلة تسجيل الدخول.',
 
     'todoForm.newTask': 'مهمة جديدة',
     'todoForm.dialogTitle': 'إنشاء مهمة جديدة',
@@ -781,7 +825,7 @@ const translations: Record<AppLanguage, Record<string, string>> = {
   providedIn: 'root',
 })
 export class LanguageService {
-  constructor() {
+  constructor(private readonly primeNG: PrimeNG) {
     this.applyLanguage(this.currentLanguage());
   }
 
@@ -923,5 +967,14 @@ export class LanguageService {
     document.documentElement.lang = language;
 
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+
+    const translation = getPrimeNgTranslation(language, this.currentLocale, this.datePickerFormat);
+    this.primeNG.setTranslation({
+      ...translation,
+      aria: {
+        ...this.primeNG.getTranslation('aria'),
+        ...translation.aria,
+      },
+    });
   }
 }

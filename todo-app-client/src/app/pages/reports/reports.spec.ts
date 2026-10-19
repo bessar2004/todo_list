@@ -67,4 +67,11 @@ describe('Reports', () => {
       fixture.nativeElement.querySelector('.stats-grid')
     ).toBeNull();
   });
+
+  it('uses whole-number ticks for task counts', () => {
+    todos$.next([]);
+    expect(component.priorityChartOptions.scales?.['y']?.ticks).toEqual(
+      expect.objectContaining({ precision: 0 }),
+    );
+  });
 });

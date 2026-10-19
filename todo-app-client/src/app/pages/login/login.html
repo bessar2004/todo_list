@@ -10,6 +10,10 @@
     </p>
   </header>
 
+  @if (route.snapshot.queryParamMap.get('passwordChanged') === 'true') {
+    <p class="login-notice" role="status">{{ language.translate('profile.passwordChanged') }}</p>
+  }
+
   <!-- HTML formunu TypeScript'teki loginForm'a bağlar -->
   <form
     [formGroup]="loginForm"
@@ -102,11 +106,7 @@
 
       @if (passwordControl.touched && passwordControl.invalid) {
         <p id="login-password-error" class="field-error" role="alert">
-          @if (passwordControl.hasError('required')) {
-            {{ language.translate('auth.login.passwordRequired') }}
-          } @else if (passwordControl.hasError('minlength')) {
-            {{ language.translate('auth.login.passwordMinLength') }}
-          }
+          {{ language.translate('auth.login.passwordRequired') }}
         </p>
       }
     </div>

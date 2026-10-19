@@ -234,73 +234,6 @@
   background: #edf1f5;
 }
 
-/* PROFILE */
-
-.profile-preview {
-  display: flex;
-  align-items: center;
-
-  gap: 12px;
-}
-
-.profile-avatar {
-  width: 46px;
-  height: 46px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-
-  color: #ffffff;
-
-  font-weight: 700;
-}
-
-.profile-preview > div:last-child {
-  display: flex;
-  flex-direction: column;
-
-  gap: 3px;
-}
-
-.profile-preview strong {
-  font-size: 0.84rem;
-
-  color: #172033;
-}
-
-.profile-preview span {
-  font-size: 0.73rem;
-
-  color: #94a3b8;
-}
-
-.coming-soon {
-  display: flex;
-  align-items: flex-start;
-
-  gap: 9px;
-
-  margin-top: 18px;
-
-  padding: 12px;
-
-  border-radius: 9px;
-
-  color: #46668f;
-
-  background: #f1f6fd;
-
-  font-size: 0.73rem;
-  line-height: 1.5;
-}
-
 /* ACTION */
 
 .settings-actions {
@@ -361,14 +294,12 @@
 }
 
 :host-context(.app-dark) .settings-card-header h2,
-:host-context(.app-dark) .setting-row strong,
-:host-context(.app-dark) .profile-preview strong {
+:host-context(.app-dark) .setting-row strong {
   color: #f8fafc;
 }
 
 :host-context(.app-dark) .settings-card-header p,
-:host-context(.app-dark) .setting-row span,
-:host-context(.app-dark) .profile-preview span {
+:host-context(.app-dark) .setting-row span {
   color: #94a3b8;
 }
 
@@ -390,11 +321,6 @@
 
 :host-context(.app-dark) .setting-divider {
   background: #334155;
-}
-
-:host-context(.app-dark) .coming-soon {
-  color: #93c5fd;
-  background: #172554;
 }
 
 /* MOBİL MENÜ DÜĞMESİ */

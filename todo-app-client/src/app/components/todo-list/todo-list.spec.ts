@@ -46,6 +46,28 @@ describe('TodoList', () => {
     expect(component).toBeTruthy();
   });
 
+  it('labels card actions and formats counts in the selected language', () => {
+    const previousLanguage = component.language.currentLanguage();
+    try {
+      component.language.setLanguage('ar');
+      component.todos.set([
+        createTodo({ id: 1, status: TodoStatus.Todo }),
+        createTodo({ id: 2, status: TodoStatus.InProgress }),
+        createTodo({ id: 3, status: TodoStatus.Completed }),
+      ]);
+      fixture.detectChanges();
+
+      const root: HTMLElement = fixture.nativeElement;
+      expect([...root.querySelectorAll('.task-count')].map(e => e.textContent?.trim()))
+        .toEqual(['١', '١', '١']);
+      expect(root.querySelectorAll('.task-actions button[aria-label="تعديل"]')).toHaveLength(3);
+      expect(root.querySelectorAll('.task-actions button[aria-label="حذف"]')).toHaveLength(3);
+      expect(root.querySelector('.search-box input')?.getAttribute('aria-label')).toBeTruthy();
+    } finally {
+      component.language.setLanguage(previousLanguage);
+    }
+  });
+
   it('should create overdue, today and upcoming notifications', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 8, 11, 12, 0, 0));

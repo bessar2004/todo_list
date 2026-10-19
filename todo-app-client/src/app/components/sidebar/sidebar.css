@@ -28,21 +28,11 @@
 .brand-logo {
   width: 36px;
   height: 36px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   flex-shrink: 0;
 
   border-radius: 10px;
 
-  background: linear-gradient(135deg, #1784ff, #1762e8);
-
   box-shadow: 0 6px 16px rgba(23, 105, 232, 0.35);
-}
-.brand-logo i {
-  font-size: 1rem;
 }
 
 .brand-name {
@@ -213,6 +203,7 @@
 @media (max-width: 768px) {
   .sidebar {
     width: 250px;
+    visibility: hidden;
 
     transform: translateX(-100%);
 
@@ -229,6 +220,7 @@
 
   .sidebar.mobile-open {
     transform: translateX(0);
+    visibility: visible;
   }
 
   /* Arapça mobil görünümde açılan menüyü ekrana getirir. */

@@ -34,6 +34,7 @@
         pInputText
         type="text"
         [(ngModel)]="searchTerm"
+        [attr.aria-label]="language.translate('taskList.searchPlaceholder')"
         [placeholder]="language.translate('taskList.searchPlaceholder')"
       />
     </div>
@@ -42,6 +43,7 @@
 
     <p-select
       [(ngModel)]="selectedPriority"
+      [ariaLabel]="language.translate('taskList.allPriorities')"
       [options]="filterPriorityOptions"
       optionLabel="label"
       optionValue="value"
@@ -53,6 +55,7 @@
     <!-- DURUM -->
     <p-select
       [(ngModel)]="selectedStatus"
+      [ariaLabel]="language.translate('taskList.allStatuses')"
       [options]="filterStatusOptions"
       optionLabel="label"
       optionValue="value"
@@ -65,6 +68,7 @@
     <app-todo-form (todoCreated)="onTodoCreated($event)"></app-todo-form>
 
     <!-- LIGHT / DARK -->
+    <div class="theme-buttons">
     <button
       type="button"
       class="theme-button"
@@ -84,6 +88,7 @@
       <i class="pi pi-moon"></i>
       {{ language.translate('theme.dark') }}
     </button>
+    </div>
   </div>
 
   <!-- BİLDİRİM -->
@@ -184,7 +189,7 @@
       </div>
 
       <div class="task-count">
-        {{ todoTasks.length }}
+        {{ language.formatNumber(todoTasks.length) }}
       </div>
     </div>
 
@@ -208,6 +213,7 @@
                 [text]="true"
                 severity="secondary"
                 [pTooltip]="language.translate('taskList.edit')"
+                [ariaLabel]="language.translate('taskList.edit')"
                 (click)="openEditDialog(todo)"
               >
               </p-button>
@@ -218,6 +224,7 @@
                 [text]="true"
                 severity="danger"
                 [pTooltip]="language.translate('taskList.delete')"
+                [ariaLabel]="language.translate('taskList.delete')"
                 (click)="deleteTodo(todo)"
               >
               </p-button>
@@ -263,7 +270,7 @@
         <span>{{ language.translate('taskList.progressDescription') }}</span>
       </div>
 
-      <div class="task-count">{{ inProgressTasks.length }}</div>
+      <div class="task-count">{{ language.formatNumber(inProgressTasks.length) }}</div>
     </div>
 
     <div
@@ -287,6 +294,7 @@
                 [text]="true"
                 severity="secondary"
                 [pTooltip]="language.translate('taskList.edit')"
+                [ariaLabel]="language.translate('taskList.edit')"
                 (click)="openEditDialog(todo)"
               ></p-button>
 
@@ -296,6 +304,7 @@
                 [text]="true"
                 severity="danger"
                 [pTooltip]="language.translate('taskList.delete')"
+                [ariaLabel]="language.translate('taskList.delete')"
                 (click)="deleteTodo(todo)"
               ></p-button>
             </div>
@@ -340,7 +349,7 @@
       </div>
 
       <div class="task-count">
-        {{ doneTasks.length }}
+        {{ language.formatNumber(doneTasks.length) }}
       </div>
     </div>
 
@@ -365,6 +374,7 @@
                 [text]="true"
                 severity="secondary"
                 [pTooltip]="language.translate('taskList.edit')"
+                [ariaLabel]="language.translate('taskList.edit')"
                 (click)="openEditDialog(todo)"
               >
               </p-button>
@@ -375,6 +385,7 @@
                 [text]="true"
                 severity="danger"
                 [pTooltip]="language.translate('taskList.delete')"
+                [ariaLabel]="language.translate('taskList.delete')"
                 (click)="deleteTodo(todo)"
               >
               </p-button>

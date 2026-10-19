@@ -2,9 +2,7 @@
   <!--Logo-->
 
   <div class="sidebar-brand">
-    <div class="brand-logo">
-      <i class="pi pi-compass"></i>
-    </div>
+    <img class="brand-logo" src="/your-plan-logo.svg" alt="" aria-hidden="true" width="36" height="36" />
 
     <span class="brand-name"> your plan </span>
 
@@ -48,12 +46,14 @@
 
   <!-- KULLANICI -->
   <div class="sidebar-user">
-    <div class="user-avatar">K</div>
+    <div class="user-avatar" aria-hidden="true">{{ auth.avatarInitial() }}</div>
     <div class="user-info">
-      <strong>
-        {{ language.translate('user.name') }}
-      </strong>
-      <span> user@example.com </span>
+      @if (auth.currentUser(); as user) {
+        <strong>{{ user.fullName }}</strong>
+        <span>{{ user.email }}</span>
+      } @else {
+        <strong>{{ language.translate('user.name') }}</strong>
+      }
     </div>
   </div>
 </aside>

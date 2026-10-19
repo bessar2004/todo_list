@@ -7,7 +7,11 @@
 .dashboard-content {
   min-height: 100vh;
 
-  margin-left: 176px;
+  margin-inline-start: 176px;
+}
+
+:host-context(.app-dark) .dashboard-layout {
+  background: #0f172a;
 }
 
 /* MOBİL SIDEBAR ARKA PLANI */
@@ -18,7 +22,7 @@
 
 @media (max-width: 768px) {
   .dashboard-content {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 
   .sidebar-overlay {

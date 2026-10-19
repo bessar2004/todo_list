@@ -61,6 +61,7 @@ builder.Services
     .AddJwtBearer(options =>
     {
         options.MapInboundClaims = false;
+        options.EventsType = typeof(AccountTokenEvents);
         options.TokenValidationParameters = new TokenValidationParameters
         {
             // JWT'nin imzasını doğrulamak için gerekli ayarlar
@@ -114,11 +115,22 @@ builder.Services
     .AddDefaultTokenProviders();
 // JWT token oluşturmak için kullanılan JwtTokenService sınıfını singleton olarak ekler. Bu, uygulama boyunca tek bir örneğin kullanılmasını sağlar.
 builder.Services.AddSingleton<JwtTokenService>();
+builder.Services.AddScoped<AccountTokenEvents>();
 builder.Services.AddTransient<IPasswordResetEmailSender, SmtpPasswordResetEmailSender>();
 
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("password-change", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            context.User.FindFirst("sub")?.Value ?? context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0,
+                AutoReplenishment = true
+            }));
     options.AddPolicy("password-reset", context =>
         RateLimitPartition.GetFixedWindowLimiter(
             context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
@@ -195,9 +207,9 @@ app.UseRouting();
 
 // CORS: Backend’in, Angular’dan gelen isteğe izin vermesini sağlayan bir guvenlik kuralidir 
 app.UseCors("AllowAngular"); // CORS politikasını kullan
-app.UseRateLimiter();
 
 app.UseAuthentication();
+app.UseRateLimiter();
 app.UseAuthorization();
 app.MapControllers();
 

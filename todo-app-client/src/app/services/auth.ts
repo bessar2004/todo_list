@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -30,12 +30,22 @@ export interface RegisterRequest {
   confirmPassword: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 @Injectable({ providedIn: 'root' })
 
 
 
 export class AuthService {
   readonly currentUser = signal<CurrentUser | null>(null);
+  readonly avatarInitial = computed(() => {
+    const name = this.currentUser()?.fullName.trim();
+    return name ? name.charAt(0).toLocaleUpperCase() : '?';
+  });
   private readonly loginUrl = `${environment.apiUrl}/auth/login`;
   private readonly registerUrl = `${environment.apiUrl}/auth/register`;
   private readonly forgotPasswordUrl = `${environment.apiUrl}/auth/forgot-password`;
@@ -51,6 +61,14 @@ private readonly meUrl = `${environment.apiUrl}/me`;  // Kullanıcı bilgilerini
   getCurrentUser(): Observable<CurrentUser> {
   return this.http.get<CurrentUser>(this.meUrl);
 }
+
+  updateProfile(fullName: string): Observable<CurrentUser> {
+    return this.http.put<CurrentUser>(this.meUrl, { fullName });
+  }
+
+  changePassword(details: ChangePasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.meUrl}/change-password`, details);
+  }
 
 // Kullanıcı kaydı için bir HTTP POST isteği gönderir ve sunucudan gelen yanıtı döndürür.
   register(details: RegisterRequest): Observable<void> {

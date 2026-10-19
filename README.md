@@ -58,7 +58,13 @@ dotnet user-secrets set 'Email:Smtp:FromAddress' '<SENDER_EMAIL>' --project Todo
 
 Sağlayıcı 465 portu ve doğrudan TLS kullanıyorsa `Security` değerini `SslOnConnect` yap. Gönderici adı için isteğe bağlı `Email:Smtp:FromName` kullanılabilir. Sıfırlama bağlantısı `Auth:ResetPasswordUrl` ayarından oluşturulur; yerel örnekte `http://localhost:4200/reset-password` kullanılır.
 
-## Kontroller
+## Profil ve hesap güvenliği
+
+Ayarlar sayfasında ad–soyad güncellenebilir; e-posta alanı salt okunurdur. Profil ve şifre ayrı düğmelerle kaydedilir. `PUT /api/me` yalnızca JWT'deki hesabın adını değiştirir. `POST /api/me/change-password` mevcut şifreyi doğrular; yeni şifre en az 15 karakter olmalı ve tekrarıyla eşleşmelidir. Şifre değiştirmek SMTP gerektirmez.
+
+Şifre değişikliği/sıfırlama, Identity güvenlik damgasını yeniler. Her korumalı API isteğinde JWT'deki oturum sürümü bu damgayla karşılaştırılır; eski JWT'ler reddedilir. Şifre değişince kullanıcı yeniden giriş yapar. Bu kontrol eklenmeden önce alınmış tokenlar da bir kez yeniden giriş gerektirir. Veritabanı şema değişikliği gerekmez.
+
+## Test komutları
 
 ```powershell
 dotnet test TodoApp.Api.Tests/TodoApp.Api.Tests.csproj
