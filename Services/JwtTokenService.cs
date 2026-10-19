@@ -36,7 +36,7 @@ public sealed class JwtTokenService
             audience: _configuration["Jwt:Audience"],
             claims: claims,
             notBefore: now,
-            expires: now.AddMinutes(15),
+            expires: now.AddMinutes(_configuration.GetValue("Jwt:AccessTokenMinutes", 60)),
             signingCredentials: new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256));

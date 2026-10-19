@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Microsoft.OpenApi; // OpenAPI, web servislerinin ve API'lerin tanımlanması, belgelenmesi ve test edilmesi için kullanılan bir standarttır. OpenAPI, API'lerin yapısını ve işlevselliğini tanımlayan bir sözleşme sağlar. Bu sözleşme, API'nin uç noktalarını (endpoints), HTTP yöntemlerini (GET, POST, PUT, DELETE vb.), istek ve yanıt formatlarını, parametreleri ve hata durumlarını içerir. OpenAPI, geliştiricilerin API'leri daha kolay anlamasını ve kullanmasını sağlar. Ayrıca, OpenAPI belgeleri otomatik olarak oluşturulabilir ve Swagger gibi araçlarla görselleştirilebilir. Bu sayede, API kullanıcıları için daha iyi bir deneyim sunulur ve entegrasyon süreçleri hızlanır.
@@ -189,6 +190,21 @@ builder.Services.AddCors(options =>
 );
 
 var app = builder.Build();
+
+// Reverse proxy arkasında gerçek istemci IP'sini (hız sınırı için) okur.
+// Yalnızca güvenilir bir proxy arkasındaysan ForwardedHeaders:Enabled=true yap.
+if (app.Configuration.GetValue<bool>("ForwardedHeaders:Enabled"))
+{
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
+}
+
+if (!app.Environment.IsDevelopment() && allowedOrigins.Length == 0)
+{
+    app.Logger.LogWarning("Cors:AllowedOrigins boş; tarayıcı tabanlı istemciler API'ye erişemez.");
+}
 
 
 
