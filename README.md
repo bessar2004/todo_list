@@ -5,7 +5,7 @@
 
 **Your Plan**, görevlerini Kanban panosunda düzenlemeni, takvimde görmeni ve raporlarla ilerlemeni takip etmeni sağlayan kişisel bir görev yönetim uygulamasıdır. Her kullanıcı yalnızca kendi görevlerini görür. Arayüz Türkçe, İngilizce ve Arapça olarak kullanılabilir.
 
-*Your Plan is a personal task manager with a Kanban board, calendar and reports. Built with Angular and ASP.NET Core; the UI is available in Turkish, English and Arabic.*
+_Your Plan is a personal task manager with a Kanban board, calendar and reports. Built with Angular and ASP.NET Core; the UI is available in Turkish, English and Arabic._
 
 ![Your Plan giriş ekranı](docs/screenshots/login.png)
 
@@ -25,16 +25,30 @@ Bir hesap oluşturup giriş yaparsın, görevlerini ekler, önceliklerini belirl
 - **Çoklu dil ve tema:** Türkçe, İngilizce, Arapça; açık ve koyu tema.
 - **Güvenlik:** JWT ile kimlik doğrulama, şifre değişince eski oturumların geçersiz olması, hesap kilitleme ve giriş/kayıt/şifre işlemlerinde hız sınırı.
 
+## Ekran görüntüleri
+
+**Takvim:** Son tarihi olan görevler günlerin üzerinde öncelik rengiyle görünür.
+
+![Takvim sayfası](docs/screenshots/calendar.png)
+
+**Raporlar:** Toplam, tamamlanan, devam eden ve geciken görevler; durum ve öncelik grafikleri.
+
+![Raporlar sayfası](docs/screenshots/reports.png)
+
+**Ayarlar:** Açık/koyu tema, dil seçimi ve görev tercihleri.
+
+![Ayarlar sayfası](docs/screenshots/settings.png)
+
 ## Kullanılan teknolojiler
 
-| Katman | Teknoloji |
-| --- | --- |
-| Arayüz | Angular 21, PrimeNG, Chart.js, Angular CDK (sürükle-bırak) |
-| API | ASP.NET Core 10 (Web API), Identity, JWT, Swagger |
-| Veri | Entity Framework Core, SQL Server |
-| E-posta | MailKit (SMTP) |
-| Test | xUnit (API), Vitest (arayüz) |
-| CI | GitHub Actions |
+| Katman  | Teknoloji                                                  |
+| ------- | ---------------------------------------------------------- |
+| Arayüz  | Angular 21, PrimeNG, Chart.js, Angular CDK (sürükle-bırak) |
+| API     | ASP.NET Core 10 (Web API), Identity, JWT, Swagger          |
+| Veri    | Entity Framework Core, SQL Server                          |
+| E-posta | MailKit (SMTP)                                             |
+| Test    | xUnit (API), Vitest (arayüz)                               |
+| CI      | GitHub Actions                                             |
 
 ## Hızlı başlangıç
 
@@ -130,15 +144,15 @@ Testler API ve istemci tarafındaki birim testleri kapsar; kayıt/giriş, görev
 
 Frontend `/api` adresini kullanır; bu yüzden SPA ve API aynı alan adı altında, bir reverse proxy (IIS, nginx vb.) arkasında yayınlanmalıdır. Production'da `appsettings.Development.json` kullanılmaz; ayarlar ortam değişkenleri veya gizli yönetim sistemiyle verilir (`:` yerine `__` kullan):
 
-| Ayar | Açıklama |
-| --- | --- |
-| `ConnectionStrings__DefaultConnection` | Production SQL Server bağlantı dizesi (LocalDB yalnızca yerel geliştirme içindir). |
-| `Jwt__SigningKey` | En az 32 baytlık Base64 anahtar. Kaynak koda veya Git'e yazma. |
-| `Jwt__AccessTokenMinutes` | Erişim token'ı ömrü, varsayılan 60 dakika. |
-| `Cors__AllowedOrigins__0` | Frontend'in adresi (ör. `https://app.example.com`). Aynı alan adı kullanılıyorsa bile tanımlaman önerilir; boşsa uygulama uyarı yazar. |
-| `Auth__ResetPasswordUrl` | Şifre sıfırlama bağlantısının kökü (ör. `https://app.example.com/reset-password`). |
-| `Email__Smtp__*` | Şifre sıfırlama e-postası için SMTP bilgileri (yukarıdaki bölüm). |
-| `ForwardedHeaders__Enabled` | Güvenilir bir reverse proxy arkasındaysan `true` yap; hız sınırı gerçek istemci IP'sini görür. |
+| Ayar                                   | Açıklama                                                                                                                               |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConnectionStrings__DefaultConnection` | Production SQL Server bağlantı dizesi (LocalDB yalnızca yerel geliştirme içindir).                                                     |
+| `Jwt__SigningKey`                      | En az 32 baytlık Base64 anahtar. Kaynak koda veya Git'e yazma.                                                                         |
+| `Jwt__AccessTokenMinutes`              | Erişim token'ı ömrü, varsayılan 60 dakika.                                                                                             |
+| `Cors__AllowedOrigins__0`              | Frontend'in adresi (ör. `https://app.example.com`). Aynı alan adı kullanılıyorsa bile tanımlaman önerilir; boşsa uygulama uyarı yazar. |
+| `Auth__ResetPasswordUrl`               | Şifre sıfırlama bağlantısının kökü (ör. `https://app.example.com/reset-password`).                                                     |
+| `Email__Smtp__*`                       | Şifre sıfırlama e-postası için SMTP bilgileri (yukarıdaki bölüm).                                                                      |
+| `ForwardedHeaders__Enabled`            | Güvenilir bir reverse proxy arkasındaysan `true` yap; hız sınırı gerçek istemci IP'sini görür.                                         |
 
 Veritabanı şemasını yayın öncesi `dotnet ef database update` veya `dotnet ef migrations script --idempotent` ile uygula. Frontend için `npm run build` çıktısı `todo-app-client/dist/` altında oluşur.
 
