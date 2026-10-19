@@ -26,6 +26,3 @@ appsettings.*.local.json
 *.suo
 .DS_Store
 Thumbs.db
-
-# Kişisel öğrenme notları (repoya dahil değil)
-/OGRENME_PLANI.md

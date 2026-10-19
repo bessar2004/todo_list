@@ -90,4 +90,4 @@ npm.cmd test --prefix todo-app-client -- --watch=false
 npm.cmd run build --prefix todo-app-client
 ```
 
-GitHub'a yüklemeden önce kayıt/giriş, görev CRUD işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da kontrol et.
+Testler API ve istemci tarafındaki birim testleri kapsar; kayıt/giriş, görev işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da elle denemeni öneririm.
