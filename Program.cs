@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
-using Microsoft.OpenApi; // OpenAPI, web servislerinin ve API'lerin tanımlanması, belgelenmesi ve test edilmesi için kullanılan bir standarttır. OpenAPI, API'lerin yapısını ve işlevselliğini tanımlayan bir sözleşme sağlar. Bu sözleşme, API'nin uç noktalarını (endpoints), HTTP yöntemlerini (GET, POST, PUT, DELETE vb.), istek ve yanıt formatlarını, parametreleri ve hata durumlarını içerir. OpenAPI, geliştiricilerin API'leri daha kolay anlamasını ve kullanmasını sağlar. Ayrıca, OpenAPI belgeleri otomatik olarak oluşturulabilir ve Swagger gibi araçlarla görselleştirilebilir. Bu sayede, API kullanıcıları için daha iyi bir deneyim sunulur ve entegrasyon süreçleri hızlanır.
+using Microsoft.OpenApi;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -151,8 +151,6 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.AddScoped<ITodoRepository, TodoRepository>(); // ITodoRepository ve TodoRepository ekle
 builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -212,7 +210,6 @@ if (!app.Environment.IsDevelopment() && allowedOrigins.Length == 0)
 // Swagger yalnızca geliştirme ortamında açılır.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
