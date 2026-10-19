@@ -91,3 +91,7 @@ npm.cmd run build --prefix todo-app-client
 ```
 
 Testler API ve istemci tarafındaki birim testleri kapsar; kayıt/giriş, görev işlemleri, kullanıcılar arası veri ayrımı, TR/EN/AR, mobil görünüm ve şifre sıfırlama akışını tarayıcıda da elle denemeni öneririm.
+
+## Lisans
+
+[MIT](LICENSE)
