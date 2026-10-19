@@ -22,6 +22,7 @@ export interface Todo {
   priority: TodoPriority;
   createdAt: string;
   dueDate?: string;
+  completedAt?: string;
 }
 
 // CreateTodo model interface

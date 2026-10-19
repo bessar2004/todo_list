@@ -142,6 +142,58 @@ public class TodoServiceTests
     }
 
     [Fact]
+    public async Task UpdateForUserAsync_WhenMovedToDone_SetsCompletedAt()
+    {
+        var storedTodo = new TodoItem { Id = 3, UserId = "ali-id", Title = "Görev", Status = TodoStatus.InProgress };
+        var service = new TodoService(new FakeTodoRepository(storedTodo));
+        var before = DateTime.UtcNow;
+
+        await service.UpdateForUserAsync(3, new UpdateTodoDto { Title = "Görev", Status = TodoStatus.Done }, "ali-id");
+
+        Assert.NotNull(storedTodo.CompletedAt);
+        Assert.InRange(storedTodo.CompletedAt!.Value, before, DateTime.UtcNow);
+    }
+
+    [Fact]
+    public async Task UpdateForUserAsync_WhenAlreadyDone_KeepsOriginalCompletedAt()
+    {
+        var completedAt = new DateTime(2026, 10, 1, 8, 0, 0, DateTimeKind.Utc);
+        var storedTodo = new TodoItem
+        {
+            Id = 3, UserId = "ali-id", Title = "Görev", Status = TodoStatus.Done, CompletedAt = completedAt
+        };
+        var service = new TodoService(new FakeTodoRepository(storedTodo));
+
+        await service.UpdateForUserAsync(3, new UpdateTodoDto { Title = "Yeni", Status = TodoStatus.Done }, "ali-id");
+
+        Assert.Equal(completedAt, storedTodo.CompletedAt);
+    }
+
+    [Fact]
+    public async Task UpdateForUserAsync_WhenReopened_ClearsCompletedAt()
+    {
+        var storedTodo = new TodoItem
+        {
+            Id = 3, UserId = "ali-id", Title = "Görev", Status = TodoStatus.Done, CompletedAt = DateTime.UtcNow
+        };
+        var service = new TodoService(new FakeTodoRepository(storedTodo));
+
+        await service.UpdateForUserAsync(3, new UpdateTodoDto { Title = "Görev", Status = TodoStatus.InProgress }, "ali-id");
+
+        Assert.Null(storedTodo.CompletedAt);
+    }
+
+    [Fact]
+    public async Task CreateAsync_WhenCreatedAsDone_SetsCompletedAt()
+    {
+        var service = new TodoService(new FakeTodoRepository());
+
+        var result = await service.CreateAsync(new CreateTodoDto { Title = "Bitmiş", Status = TodoStatus.Done }, "ali-id");
+
+        Assert.NotNull(result.CompletedAt);
+    }
+
+    [Fact]
     public async Task UpdateForUserAsync_WhenTodoDoesNotExist_ReturnsFalseWithoutSaving()
     {
         var repository = new FakeTodoRepository();

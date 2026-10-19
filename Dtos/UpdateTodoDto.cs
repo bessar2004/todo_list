@@ -23,9 +23,6 @@ public class UpdateTodoDto
     // bu alan, todo öğesinin son teslim tarihini temsil eder. Boş olabilir ve null değer alabilir. Eğer todo öğesi için bir son teslim tarihi belirlenmişse, bu alan o tarihi tutar.
     public DateTime? DueDate { get; set; }
 
-    // bu alan, todo öğesinin oluşturulma tarihini temsil eder. Boş olabilir ve null değer alabilir. Eğer todo öğesi için bir oluşturulma tarihi belirlenmişse, bu alan o tarihi tutar.
-    public DateTime? CreatedAt { get; set; }
-
 
 
 

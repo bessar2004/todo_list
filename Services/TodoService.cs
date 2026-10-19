@@ -50,6 +50,7 @@ public class TodoService : ITodoService
             DueDate = dto.DueDate,
             CreatedAt = DateTime.UtcNow
         };
+        ApplyCompletion(todoItem, dto.Status);
 
         await _todoRepository.AddAsync(todoItem);
 
@@ -78,7 +79,7 @@ public class TodoService : ITodoService
 
         todo.Title = dto.Title;
         todo.Description = dto.Description;
-        todo.Status = dto.Status;
+        ApplyCompletion(todo, dto.Status);
         todo.Priority = dto.Priority;
         todo.DueDate = dto.DueDate;
 
@@ -118,6 +119,24 @@ public class TodoService : ITodoService
 
 
 
+    // Görev "Done" durumuna ilk geçtiğinde tamamlanma zamanını kaydeder; başka duruma dönerse siler.
+    private static void ApplyCompletion(TodoItem todo, TodoStatus newStatus)
+    {
+        if (newStatus == TodoStatus.Done)
+        {
+            if (todo.Status != TodoStatus.Done || todo.CompletedAt is null)
+            {
+                todo.CompletedAt = DateTime.UtcNow;
+            }
+        }
+        else
+        {
+            todo.CompletedAt = null;
+        }
+
+        todo.Status = newStatus;
+    }
+
     // bu metot, TodoItem nesnesini TodoDto nesnesine dönüştürmek için kullanılır. Bu dönüşüm, istemciye gönderilecek verilerin formatını belirler ve istemcinin ihtiyaç duyduğu bilgileri sağlar.
 
     //bir görevi, API cevabında kullanılabilecek veri nesnesine dönüştürür
@@ -131,7 +150,8 @@ public class TodoService : ITodoService
             Status = todo.Status,
             Priority = todo.Priority,
             CreatedAt = todo.CreatedAt,
-            DueDate = todo.DueDate
+            DueDate = todo.DueDate,
+            CompletedAt = todo.CompletedAt
         };
     }
 

@@ -48,6 +48,7 @@ public class AuthController : ControllerBase
 
 
     [HttpPost("register")]
+    [EnableRateLimiting("register")]
 
     // Kullanıcı kayıt işlemini gerçekleştiren 
     // bir HTTP POST isteği. Bu istek, kullanıcıdan alınan kayıt bilgilerini 
@@ -94,6 +95,7 @@ public class AuthController : ControllerBase
     //  oluşturulur ve döndürülür; aksi takdirde, 401 Unauthorized HTTP durum kodu 
     // döndürülür.
     [HttpPost("login")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var user = await ValidateCredentialsAsync(request);

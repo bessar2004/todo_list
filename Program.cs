@@ -121,26 +121,26 @@ builder.Services.AddTransient<IPasswordResetEmailSender, SmtpPasswordResetEmailS
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    static RateLimitPartition<string> FixedWindow(string key, int permitLimit) =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            key,
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = permitLimit,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0,
+                AutoReplenishment = true
+            });
+
+    static string ClientIp(HttpContext context) =>
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
     options.AddPolicy("password-change", context =>
-        RateLimitPartition.GetFixedWindowLimiter(
-            context.User.FindFirst("sub")?.Value ?? context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            _ => new FixedWindowRateLimiterOptions
-            {
-                PermitLimit = 5,
-                Window = TimeSpan.FromMinutes(1),
-                QueueLimit = 0,
-                AutoReplenishment = true
-            }));
-    options.AddPolicy("password-reset", context =>
-        RateLimitPartition.GetFixedWindowLimiter(
-            context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
-            _ => new FixedWindowRateLimiterOptions
-            {
-                PermitLimit = 5,
-                Window = TimeSpan.FromMinutes(1),
-                QueueLimit = 0,
-                AutoReplenishment = true
-            }));
+        FixedWindow(context.User.FindFirst("sub")?.Value ?? ClientIp(context), 5));
+    options.AddPolicy("password-reset", context => FixedWindow(ClientIp(context), 5));
+    options.AddPolicy("login", context => FixedWindow(ClientIp(context), 10));
+    options.AddPolicy("register", context => FixedWindow(ClientIp(context), 5));
 });
 
 

@@ -22,6 +22,8 @@ public class TodoDto
 
     public DateTime? DueDate { get; set; }
 
+    public DateTime? CompletedAt { get; set; }
+
 
 
 
