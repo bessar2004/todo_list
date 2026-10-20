@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Api.Data;
+using TodoApp.Api.Middleware;
 using TodoApp.Api.Models;
 using TodoApp.Api.Repositories;
 using TodoApp.Api.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Microsoft.OpenApi;
@@ -150,6 +152,7 @@ builder.Services.AddRateLimiter(options =>
 
 builder.Services.AddScoped<ITodoRepository, TodoRepository>(); // ITodoRepository ve TodoRepository ekle
 builder.Services.AddScoped<ITodoService, TodoService>();
+builder.Services.Configure<HstsOptions>(options => options.MaxAge = TimeSpan.FromDays(180));
 builder.Services.AddControllers();
 
 
@@ -199,6 +202,8 @@ if (app.Configuration.GetValue<bool>("ForwardedHeaders:Enabled"))
     });
 }
 
+app.UseSecurityHeaders();
+
 if (!app.Environment.IsDevelopment() && allowedOrigins.Length == 0)
 {
     app.Logger.LogWarning("Cors:AllowedOrigins boş; tarayıcı tabanlı istemciler API'ye erişemez.");
@@ -214,6 +219,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+// Production'da tarayıcıya "bu siteye hep HTTPS ile bağlan" der.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
 app.UseRouting();

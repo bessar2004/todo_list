@@ -15,3 +15,16 @@ Frontend `/api` adresini kullanır; bu yüzden SPA ve API aynı alan adı altın
 | `ForwardedHeaders__Enabled`            | Güvenilir bir reverse proxy arkasındaysan `true` yap; hız sınırı gerçek istemci IP'sini görür.                                         |
 
 Veritabanı şemasını yayın öncesi `dotnet ef database update` veya `dotnet ef migrations script --idempotent` ile uygula. Frontend için `npm run build` çıktısı `todo-app-client/dist/` altında oluşur.
+
+## Güvenlik başlıkları
+
+API her yanıta `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` ve kısıtlayıcı bir `Content-Security-Policy` ekler; `/api` yanıtları `Cache-Control: no-store` ile döner. Production'da ayrıca HSTS (180 gün) açıktır. HSTS yalnızca HTTPS üzerinden çalışan bir alan adında anlamlıdır.
+
+Angular dosyalarını API değil reverse proxy sunduğu için arayüzün güvenlik başlıklarını proxy'de tanımlaman gerekir. nginx için başlangıç noktası (tarayıcı konsolunda CSP hatası olup olmadığını mutlaka kontrol et, gerekirse gevşet):
+
+```nginx
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+add_header Referrer-Policy "no-referrer" always;
+add_header Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'" always;
+```
