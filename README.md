@@ -21,6 +21,10 @@
 
 ## Ekran görüntüleri
 
+**Görevler (Kanban panosu):** Görevler Yapılacak, Devam Ediyor ve Tamamlandı sütunlarında; arama, öncelik/durum filtresi ve tema seçimi üstte.
+
+![Kanban panosu](docs/screenshots/kanban.png)
+
 **Takvim:** Son tarihi olan görevler günlerin üzerinde öncelik rengiyle görünür.
 
 ![Takvim sayfası](docs/screenshots/calendar.png)
