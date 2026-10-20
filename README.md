@@ -17,7 +17,7 @@
 - **Hesap sistemi:** Kayıt, giriş, "şifremi unuttum" (e-posta ile sıfırlama, SMTP ayarı gerektirir), profil adını güncelleme ve şifre değiştirme.
 - **Kullanıcıya özel veri:** Görevler hesaba bağlıdır, başka bir kullanıcının görevine erişilemez.
 - **Çoklu dil ve tema:** Türkçe, İngilizce, Arapça; açık ve koyu tema.
-- **Güvenlik:** JWT ile kimlik doğrulama, şifre değişince eski oturumların geçersiz olması, hesap kilitleme, giriş/kayıt/şifre işlemlerinde hız sınırı, güvenlik başlıkları (CSP, X-Frame-Options vb.) ve production'da HSTS.
+- **Güvenlik:** JWT ile kimlik doğrulama, şifre değişince eski oturumların geçersiz olması, hesap kilitleme, giriş/kayıt/şifre işlemlerinde hız sınırı, API yanıtlarında güvenlik başlıkları (CSP, X-Frame-Options vb.) ve production'da HSTS.
 
 ## Ekran görüntüleri
 
@@ -97,6 +97,7 @@ Giriş ekranından **Kayıt Ol** ile bir hesap oluşturup kullanmaya başlayabil
 .
 ├── Controllers/            API uç noktaları (auth, me, todo)
 ├── Services/               İş mantığı, JWT, e-posta gönderimi
+├── Middleware/             Güvenlik başlıkları
 ├── Repositories/           Veri erişimi
 ├── Dtos/  Models/  Data/   Veri modelleri ve EF Core bağlamı
 ├── Migrations/             Veritabanı şema geçmişi
